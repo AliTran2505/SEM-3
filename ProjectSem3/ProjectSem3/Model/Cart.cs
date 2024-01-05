@@ -13,7 +13,7 @@ namespace ProjectSem3.Model
         [ForeignKey("Account")]
         public int AccountID { get; set; }
         public DateTime CreateAt { get; set; }
-        public DateTime? LastCreateAt { get; set; }
+        public DateTime? LastUpdateAt { get; set; }
 
     }
 }

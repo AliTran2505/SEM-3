@@ -21,7 +21,7 @@ namespace ProjectSem3.Model
         [Required]
         public bool Status { get; set; }
         public DateTime  CreateAt  { get; set; } 
-        public DateTime? LastCreateAt { get; set; }
+        public DateTime? LastUpdateAt { get; set; }
 
         public IFormFile ImageFile { get; set; }
     }
