@@ -139,7 +139,7 @@ namespace ProjectSem3.Controllers
                 }
                 else
                 {
-                var product = new Product {  CategoryID = p.CategoryID, Description = p.Description, Price = p.Price, ProductName = p.ProductName, Quantity = p.Quantity, Status = p.Status, CreateAt = p.CreateAt, LastUpdateAt = p.LastUpdateAt };
+                var product = new Product {  CategoryID = p.CategoryID, Description = p.Description, Price = p.Price, ProductName = p.ProductName, Quantity = p.Quantity, Status = p.Status, CreateAt = p.CreateAt, LastCreateAt = p.LastCreateAt };
                     if (p.ImageFile.Length > 0)
                     {
                         var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", p.ImageFile.FileName);

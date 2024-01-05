@@ -17,6 +17,6 @@ namespace ProjectSem3.Model
         [Required]
         public string DeliveryType { get; set; }
         public DateTime CreateAt { get; set; }
-        public DateTime? LastUpdateAt { get; set; }
+        public DateTime? LastCreateAt { get; set; }
     }
 }
