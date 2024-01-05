@@ -16,7 +16,7 @@ namespace ProjectSem3.Model
         public string Description { get; set; }
         
         [Required]
-        public string Image { get; set; }
+        public string? Image { get; set; }
         [Required]
         public float Price { get; set; }
         [Required]
@@ -25,5 +25,7 @@ namespace ProjectSem3.Model
         public bool Status { get; set; }
         public DateTime CreateAt { get; set; }
         public DateTime? LastCreateAt { get; set; }
+
+        public virtual Category Category { get; set; }
     }
 }

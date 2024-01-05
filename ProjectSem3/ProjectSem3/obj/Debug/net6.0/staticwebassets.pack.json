@@ -1,0 +1,89 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Web API\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\1694766497357.jpg",
+      "PackagePath": "staticwebassets\\images\\1694766497357.jpg"
+    },
+    {
+      "Id": "D:\\Web API\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\274206821_327761869144800_4776579931837215356_n (1).jpg",
+      "PackagePath": "staticwebassets\\images\\274206821_327761869144800_4776579931837215356_n (1).jpg"
+    },
+    {
+      "Id": "D:\\Web API\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\IMG_4682.JPG",
+      "PackagePath": "staticwebassets\\images\\IMG_4682.JPG"
+    },
+    {
+      "Id": "D:\\Web API\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\IMG_5101.jpg",
+      "PackagePath": "staticwebassets\\images\\IMG_5101.jpg"
+    },
+    {
+      "Id": "D:\\Web API\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\_829155235682364_2897997376858300069_n.jpg",
+      "PackagePath": "staticwebassets\\images\\_829155235682364_2897997376858300069_n.jpg"
+    },
+    {
+      "Id": "D:\\Web API\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\a1-3.jpg",
+      "PackagePath": "staticwebassets\\images\\a1-3.jpg"
+    },
+    {
+      "Id": "D:\\Web API\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\a1.jpg",
+      "PackagePath": "staticwebassets\\images\\a1.jpg"
+    },
+    {
+      "Id": "D:\\Web API\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\a2-1.jpg",
+      "PackagePath": "staticwebassets\\images\\a2-1.jpg"
+    },
+    {
+      "Id": "D:\\Web API\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\a2-3.jpg",
+      "PackagePath": "staticwebassets\\images\\a2-3.jpg"
+    },
+    {
+      "Id": "D:\\Web API\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\a3.jpg",
+      "PackagePath": "staticwebassets\\images\\a3.jpg"
+    },
+    {
+      "Id": "D:\\Web API\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\m1-3.jpg",
+      "PackagePath": "staticwebassets\\images\\m1-3.jpg"
+    },
+    {
+      "Id": "D:\\Web API\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\m2-3.jpg",
+      "PackagePath": "staticwebassets\\images\\m2-3.jpg"
+    },
+    {
+      "Id": "D:\\Web API\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\m2.jpg",
+      "PackagePath": "staticwebassets\\images\\m2.jpg"
+    },
+    {
+      "Id": "D:\\Web API\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\w1-1.jpg",
+      "PackagePath": "staticwebassets\\images\\w1-1.jpg"
+    },
+    {
+      "Id": "D:\\Web API\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\w1-2.jpg",
+      "PackagePath": "staticwebassets\\images\\w1-2.jpg"
+    },
+    {
+      "Id": "D:\\Web API\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\w2-3.jpg",
+      "PackagePath": "staticwebassets\\images\\w2-3.jpg"
+    },
+    {
+      "Id": "D:\\Web API\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\w2.jpg",
+      "PackagePath": "staticwebassets\\images\\w2.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.ProjectSem3.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.build.ProjectSem3.props",
+      "PackagePath": "build\\ProjectSem3.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildMultiTargeting.ProjectSem3.props",
+      "PackagePath": "buildMultiTargeting\\ProjectSem3.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildTransitive.ProjectSem3.props",
+      "PackagePath": "buildTransitive\\ProjectSem3.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -34,7 +36,8 @@ namespace ProjectSem3.Controllers
         }
 
         // GET: api/Products/5
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
           if (_context.Products == null)
@@ -50,6 +53,17 @@ namespace ProjectSem3.Controllers
 
             return product;
         }
+
+        [HttpGet]
+        [Route("Search-by-categoryname")]
+        public async Task<ActionResult<Product>> SearchProduct(string catName)
+        {
+            var products = _context.Products
+             .Where(p => p.Category.CategoryName == catName).ToList();
+
+            return Ok(products);
+        }
+
 
         // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -85,6 +99,7 @@ namespace ProjectSem3.Controllers
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Consumes("application/json")]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
           if (_context.Products == null)
@@ -111,7 +126,38 @@ namespace ProjectSem3.Controllers
 
             return CreatedAtAction("GetProduct", new { id = product.ProductID }, product);
         }
-
+        //POST IMAGE
+        [HttpPost]
+        [Route("uploadfile")]
+        public async Task<IActionResult> PostWithImageAsync([FromForm] ProductImage p)
+        {
+                
+                var findP = _context.Products.Find(p.ProductID);
+                if (findP != null)
+                {
+                    return Ok("Mã sản phẩm này đã có rồi");
+                }
+                else
+                {
+                var product = new Product {  CategoryID = p.CategoryID, Description = p.Description, Price = p.Price, ProductName = p.ProductName, Quantity = p.Quantity, Status = p.Status, CreateAt = p.CreateAt, LastCreateAt = p.LastCreateAt };
+                    if (p.ImageFile.Length > 0)
+                    {
+                        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", p.ImageFile.FileName);
+                        using (var stream = System.IO.File.Create(path))
+                        {
+                            await p.ImageFile.CopyToAsync(stream);
+                        }
+                        product.Image = "/images/" + p.ImageFile.FileName;
+                    }
+                    else
+                    {
+                        product.Image = "";
+                    }
+                    await _context.Products.AddAsync(product);
+                    await _context.SaveChangesAsync();
+                    return Ok(product);
+                }
+        }
 
         // DELETE: api/Products/5
         [HttpDelete("{id}")]
