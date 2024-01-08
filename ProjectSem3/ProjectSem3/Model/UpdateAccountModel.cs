@@ -15,19 +15,10 @@ namespace ProjectSem3
         [DefaultValue("user")]
         public string RoleName { get; set; }
 
-        [Required]
-        public string FirstName { get; set; }
+      
 
         [Required]
-        public string MiddleName { get; set; }
-
-        [Required]
-        public string LastName { get; set; }
-
-        [Required]
-        public DateTime BirthDay { get; set; }
-
-        [Required]
+      
         public string Email { get; set; }
 
         [Required]

@@ -13,14 +13,8 @@ namespace ProjectSem3.Model
         [Required]
         public string RoleName { get; set; } = "user";
         [Required]
-        public string FirstName { get; set; }
-        [Required]
-        public string MiddleName { get; set; }
-        [Required]
-        public string LastName { get; set; }
-        [Required]
-        public DateTime BirthDay { get; set; }
-        [Required]
+    
+   
 
         public string Email { get; set; }
         

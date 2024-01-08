@@ -1,10 +1,15 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using NuGet.Common;
 using ProjectSem3.Model;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,22 +26,54 @@ builder.Services.AddCors(o =>
         .AllowAnyMethod();
     });
 });
-builder.Services.AddIdentity<Account, IdentityRole > ()
+builder.Services.AddIdentity<Account, IdentityRole>()
     .AddEntityFrameworkStores<ShopDbContext>()
     .AddDefaultTokenProviders();
+//builder.Services.AddSwaggerGen(options =>
+//{
+//    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+//    {
+//        Scheme = "Bearer",
+//        BearerFormat = "JWT",
+//        In = ParameterLocation.Header,
+//        Name = "Authorization",
+//        Description = "Bearer authorize with JWT",
+//        Type = SecuritySchemeType.Http
+//    });
+//    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+//    {
+//        {
+//            new OpenApiSecurityScheme
+//            {
+//                Reference = new OpenApiReference
+//                {
+//                    Id = "Bearer",
+//                    Type = ReferenceType.SecurityScheme
+//                }
+//            },
+//            new List<string>()
+//        }
+            
+//    });
+//}
 
-var key = "HieuAliCuongHieuAliCuongHieuAliCuong"; // Replace this with your own secret key
+//);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer = false,
-            ValidateAudience = false,
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+            ValidIssuer = builder.Configuration["JWT:Issuer"], // 
+            ValidAudience = builder.Configuration["JWT:Audience"], // 
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
         };
+
     });
 
 
@@ -50,12 +87,11 @@ var app = builder.Build();
 
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
+//if (app.Environment.IsDevelopment())
+//{
+app.UseSwagger();
+app.UseSwaggerUI();
+//}
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

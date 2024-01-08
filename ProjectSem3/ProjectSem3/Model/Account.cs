@@ -11,21 +11,14 @@ namespace ProjectSem3.Model
         [Key]
         public int AccountID { get; set; }
         [Required]
+
         public override string UserName { get; set; }
         [Required]
         public string Password { get; set; }
-        [Required]
         [DefaultValue("user")]
         public string RoleName { get; set; } 
         [Required]
-        public string FirstName { get; set; }
-        [Required]
-        public string MiddleName { get; set; }
-        [Required]
-        public string LastName { get; set; }
-        [Required]
-        public DateTime BirthDay { get; set; }
-        [Required]
+       
 
         public string Email { get; set; }
         [Required]
@@ -35,5 +28,10 @@ namespace ProjectSem3.Model
         public string Address { get; set; }
         public DateTime CreateAt { get; set; }
         public DateTime? LastUpdateAt { get; set; }
+    }
+    public class LoginResponse
+    {
+        public string Token { get; set; }
+        public Account UserData { get; set; }
     }
 }
