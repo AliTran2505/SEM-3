@@ -10,9 +10,11 @@ D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Release\net6.0\PubTm
 D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Release\net6.0\PubTmp\Out\MessagePack.dll
 D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Release\net6.0\PubTmp\Out\MessagePack.Annotations.dll
 D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Release\net6.0\PubTmp\Out\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Release\net6.0\PubTmp\Out\Microsoft.AspNetCore.Authorization.dll
 D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Release\net6.0\PubTmp\Out\Microsoft.AspNetCore.Cryptography.Internal.dll
 D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Release\net6.0\PubTmp\Out\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
 D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Release\net6.0\PubTmp\Out\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Release\net6.0\PubTmp\Out\Microsoft.AspNetCore.Metadata.dll
 D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Release\net6.0\PubTmp\Out\Microsoft.AspNetCore.Razor.Language.dll
 D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Release\net6.0\PubTmp\Out\Microsoft.Bcl.AsyncInterfaces.dll
 D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Release\net6.0\PubTmp\Out\Microsoft.Build.dll
@@ -40,6 +42,7 @@ D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Release\net6.0\PubTm
 D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Release\net6.0\PubTmp\Out\Microsoft.Extensions.DependencyModel.dll
 D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Release\net6.0\PubTmp\Out\Microsoft.Extensions.Identity.Core.dll
 D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Release\net6.0\PubTmp\Out\Microsoft.Extensions.Identity.Stores.dll
+D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Release\net6.0\PubTmp\Out\Microsoft.Extensions.Logging.Abstractions.dll
 D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Release\net6.0\PubTmp\Out\Microsoft.Identity.Client.dll
 D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Release\net6.0\PubTmp\Out\Microsoft.IdentityModel.JsonWebTokens.dll
 D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Release\net6.0\PubTmp\Out\Microsoft.IdentityModel.Logging.dll

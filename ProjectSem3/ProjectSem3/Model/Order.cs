@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectSem3.Model
@@ -12,7 +13,7 @@ namespace ProjectSem3.Model
         public int CartID { get; set; }
         [Required]
         public float Total { get; set; }
-        [Required]
+        [DefaultValue("true")]
         public bool Status { get; set; }
         [Required]
         public string DeliveryType { get; set; }

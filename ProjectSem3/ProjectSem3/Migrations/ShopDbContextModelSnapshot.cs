@@ -124,6 +124,9 @@ namespace ProjectSem3.Migrations
                     b.Property<int>("ProductID")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
                     b.HasKey("CartID");
 
                     b.ToTable("Cart");

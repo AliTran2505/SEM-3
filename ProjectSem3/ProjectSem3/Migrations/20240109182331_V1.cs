@@ -50,6 +50,7 @@ namespace ProjectSem3.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductID = table.Column<int>(type: "int", nullable: false),
                     AccountID = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false),
                     CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastUpdateAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },

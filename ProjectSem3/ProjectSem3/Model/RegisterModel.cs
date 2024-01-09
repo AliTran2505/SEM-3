@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectSem3.Model
 {
@@ -10,7 +11,6 @@ namespace ProjectSem3.Model
         public string UserName { get; set; }
         [Required]
         public string Password { get; set; }
-        [Required]
         public string RoleName { get; set; } = "user";
         [Required]
 
@@ -21,6 +21,8 @@ namespace ProjectSem3.Model
         [Required]
          
         public string Address { get; set; }
+        [DefaultValue("true")]
+        public bool Status { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.Now;
         public DateTime? LastUpdateAt { get; set; } = DateTime.Now;
     }

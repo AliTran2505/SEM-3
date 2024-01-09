@@ -18,6 +18,7 @@ using NuGet.Common;
 using System;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Net;
+using Newtonsoft.Json;
 
 
 namespace ProjectSem3.Controllers
@@ -54,7 +55,7 @@ namespace ProjectSem3.Controllers
             var x = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier); //get in the constructor
             _userManager = userManager;
             _signInManager = signInManager;
-            _key = Encoding.UTF8.GetBytes("HieuAliCuongHieuAliCuong"); // Replace with your secret key
+            _key = Encoding.UTF8.GetBytes("E2m3O4r5U6g7e8n9K1e2y3F4o5r6Y7o8u9"); // Replace with your secret key
         }
 
         [HttpPost("/register")]
@@ -81,7 +82,7 @@ namespace ProjectSem3.Controllers
             return Ok(accounts);
         }
 
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("/accounts/me")]
         public IActionResult GetAccountByToken()
         {
@@ -148,30 +149,40 @@ namespace ProjectSem3.Controllers
                 return NotFound("Account not found");
             }
 
+            var cartsToRemove = _dbContext.Carts.Where(c => c.AccountID == accountId);
+            var ordersToRemove = _dbContext.Orders.Where(o => cartsToRemove.Any(c => c.CartID == o.CartID));
+
+            _dbContext.Orders.RemoveRange(ordersToRemove);
+            _dbContext.Carts.RemoveRange(cartsToRemove);
             _dbContext.Accounts.Remove(account);
+
             await _dbContext.SaveChangesAsync();
 
-            return Ok("Account deleted successfully");
+            return Ok("Account, associated carts, and associated orders deleted successfully");
         }
 
         private string GenerateJwtToken(int accountId, string username, string roleName, string phoneNumber, string email, string address, byte[] key)
         {
             var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.NameIdentifier, accountId.ToString()),
-            new Claim(ClaimTypes.Name, username),
-            new Claim(ClaimTypes.Role, roleName),
-            new Claim("phone", phoneNumber), // Thay đổi key của claim phone
-            new Claim(ClaimTypes.Email, email),
-            new Claim("address", address)
-            // Các claims khác nếu cần
-        };
+    {
+        new Claim(ClaimTypes.NameIdentifier, accountId.ToString()),
+        new Claim(ClaimTypes.Name, username),
+        new Claim(ClaimTypes.Role, roleName),
+        new Claim(ClaimTypes.MobilePhone, phoneNumber),
+        new Claim(ClaimTypes.Email, email),
+        new Claim("address", address)
+        // Thêm các claims khác nếu cần
+    };
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddDays(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                Expires = DateTime.UtcNow.AddHours(24),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+
+                // Sử dụng IConfiguration để lấy giá trị Issuer và Audience từ cấu hình
+                Issuer = _config["JWT:Issuer"],
+                Audience = _config["JWT:Audience"]
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -191,28 +202,7 @@ namespace ProjectSem3.Controllers
             {
                 return Unauthorized("Invalid username or password");
             }
-            var authProperties = new AuthenticationProperties
-            {
-                AllowRefresh = true,
-                ExpiresUtc = DateTimeOffset.UtcNow.AddDays(1),
-                IsPersistent = true
-            };
-            var claims = new List<Claim>
-    {
-        new Claim(ClaimTypes.NameIdentifier, user.AccountID.ToString()),
-        new Claim(ClaimTypes.Name, user.UserName),
-        new Claim(ClaimTypes.Role, user.RoleName),
-            new Claim("phone", user.PhoneNumber), // Thay đổi key của claim phone
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim("address", user.Address)
-        // Thêm các claim khác tùy theo yêu cầu
-    };
-            // Đăng nhập và thiết lập thông tin xác thực
-            var claimsIdentity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
-            HttpContext.SignInAsync(
-                JwtBearerDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity),
-                authProperties);
+
             var token = GenerateJwtToken(user.AccountID, model.UserName, user.RoleName, user.PhoneNumber, user.Email, user.Address, _key);
 
             var loginResponse = new LoginResponse
@@ -229,7 +219,14 @@ namespace ProjectSem3.Controllers
                     // Gán các giá trị cần thiết khác từ đối tượng user
                 }
             };
-            Response.Headers.Add("Authorization", "Bearer " + token);
+
+            // Lưu LoginResponse vào Cookie
+            Response.Cookies.Append("LoginResponse", JsonConvert.SerializeObject(loginResponse), new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTimeOffset.UtcNow.AddDays(1)
+            });
+
             return Ok(loginResponse);
         }
 

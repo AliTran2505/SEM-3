@@ -12,7 +12,7 @@ using ProjectSem3.Model;
 namespace ProjectSem3.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    [Migration("20240109164454_V1")]
+    [Migration("20240109182331_V1")]
     partial class V1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -125,6 +125,9 @@ namespace ProjectSem3.Migrations
 
                     b.Property<int>("ProductID")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.HasKey("CartID");
 

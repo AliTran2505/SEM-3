@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectSem3.Model
@@ -12,6 +13,8 @@ namespace ProjectSem3.Model
         public int ProductID { get; set; }
         [ForeignKey("Account")]
         public int AccountID { get; set; }
+        [DefaultValue("true")]
+        public bool Status { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.Now;
         public DateTime? LastUpdateAt { get; set; } = DateTime.Now;
 

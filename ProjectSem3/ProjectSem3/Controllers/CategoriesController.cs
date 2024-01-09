@@ -116,15 +116,19 @@ namespace ProjectSem3.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            if (_context.Categories == null)
-            {
-                return NotFound();
-            }
             var category = await _context.Categories.FindAsync(id);
+
             if (category == null)
             {
                 return NotFound();
             }
+
+            // Tìm và xóa các tham chiếu từ các bảng khác đến CategoryID
+            var productsToRemove = _context.Products.Where(p => p.CategoryID == id);
+            // Ví dụ: _context.SubCategories.Where(s => s.CategoryID == id);
+
+            _context.Products.RemoveRange(productsToRemove);
+            // Ví dụ: _context.SubCategories.RemoveRange(subCategoriesToRemove);
 
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
