@@ -1129,3 +1129,6 @@ D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Debug\net6.0\refint\
 D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Debug\net6.0\ProjectSem3.pdb
 D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Debug\net6.0\ProjectSem3.genruntimeconfig.cache
 D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\obj\Debug\net6.0\ref\ProjectSem3.dll
+D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\bin\Debug\net6.0\Microsoft.AspNetCore.Authorization.dll
+D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\bin\Debug\net6.0\Microsoft.AspNetCore.Metadata.dll
+D:\New folder\ProjectSem3\SEM-3\ProjectSem3\ProjectSem3\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll

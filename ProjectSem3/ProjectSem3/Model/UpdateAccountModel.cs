@@ -27,7 +27,7 @@ namespace ProjectSem3
         [Required]
         public string Address { get; set; }
 
-        public DateTime CreateAt { get; set; }
-        public DateTime? LastUpdateAt { get; set; }
+        public DateTime CreateAt { get; set; } = DateTime.Now;
+        public DateTime? LastUpdateAt { get; set; } = DateTime.Now;
     }
 }

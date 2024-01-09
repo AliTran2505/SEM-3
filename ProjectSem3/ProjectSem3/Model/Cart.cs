@@ -12,8 +12,8 @@ namespace ProjectSem3.Model
         public int ProductID { get; set; }
         [ForeignKey("Account")]
         public int AccountID { get; set; }
-        public DateTime CreateAt { get; set; }
-        public DateTime? LastUpdateAt { get; set; }
+        public DateTime CreateAt { get; set; } = DateTime.Now;
+        public DateTime? LastUpdateAt { get; set; } = DateTime.Now;
 
     }
 }

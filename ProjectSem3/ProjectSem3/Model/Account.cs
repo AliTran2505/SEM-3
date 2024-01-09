@@ -11,23 +11,22 @@ namespace ProjectSem3.Model
         [Key]
         public int AccountID { get; set; }
         [Required]
-
         public override string UserName { get; set; }
         [Required]
         public string Password { get; set; }
         [DefaultValue("user")]
         public string RoleName { get; set; } 
         [Required]
-       
-
         public string Email { get; set; }
         [Required]
         public string PhoneNumber { get; set; }
-        
         [Required]
         public string Address { get; set; }
-        public DateTime CreateAt { get; set; }
-        public DateTime? LastUpdateAt { get; set; }
+
+        [DefaultValue("true")]
+        public bool Status {  get; set; }
+        public DateTime CreateAt { get; set; } = DateTime.Now;
+        public DateTime? LastUpdateAt { get; set; } = DateTime.Now;
     }
     public class LoginResponse
     {

@@ -20,8 +20,8 @@ namespace ProjectSem3.Model
         public int Quantity { get; set; }
         [Required]
         public bool Status { get; set; }
-        public DateTime  CreateAt  { get; set; } 
-        public DateTime? LastUpdateAt { get; set; }
+        public DateTime CreateAt { get; set; } = DateTime.Now;
+        public DateTime? LastUpdateAt { get; set; } = DateTime.Now;
 
         public IFormFile ImageFile { get; set; }
     }

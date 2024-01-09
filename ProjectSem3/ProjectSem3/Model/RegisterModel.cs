@@ -13,8 +13,6 @@ namespace ProjectSem3.Model
         [Required]
         public string RoleName { get; set; } = "user";
         [Required]
-    
-   
 
         public string Email { get; set; }
         
@@ -23,7 +21,7 @@ namespace ProjectSem3.Model
         [Required]
          
         public string Address { get; set; }
-        public DateTime CreateAt { get; set; }
-        public DateTime? LastUpdateAt { get; set; }
+        public DateTime CreateAt { get; set; } = DateTime.Now;
+        public DateTime? LastUpdateAt { get; set; } = DateTime.Now;
     }
 }
