@@ -161,7 +161,7 @@ namespace ProjectSem3.Controllers
             return Ok("Account, associated carts, and associated orders deleted successfully");
         }
 
-        private string GenerateJwtToken(int accountId, string username, string roleName, string phoneNumber, string email, string address, byte[] key)
+        private string GenerateJwtToken(int accountId, string username, string roleName, string phoneNumber, string email, string address, bool status, byte[] key)
         {
             var claims = new List<Claim>
     {
@@ -170,7 +170,8 @@ namespace ProjectSem3.Controllers
         new Claim(ClaimTypes.Role, roleName),
         new Claim(ClaimTypes.MobilePhone, phoneNumber),
         new Claim(ClaimTypes.Email, email),
-        new Claim("address", address)
+        new Claim("address", address),
+        new Claim("status", status.ToString()) // Chuyển trạng thái (status) thành chuỗi và thêm vào claim
         // Thêm các claims khác nếu cần
     };
 
@@ -180,7 +181,6 @@ namespace ProjectSem3.Controllers
                 Expires = DateTime.UtcNow.AddHours(24),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
 
-                // Sử dụng IConfiguration để lấy giá trị Issuer và Audience từ cấu hình
                 Issuer = _config["JWT:Issuer"],
                 Audience = _config["JWT:Audience"]
             };
@@ -190,8 +190,6 @@ namespace ProjectSem3.Controllers
 
             return tokenHandler.WriteToken(token);
         }
-
-
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginModel model)
@@ -203,7 +201,7 @@ namespace ProjectSem3.Controllers
                 return Unauthorized("Invalid username or password");
             }
 
-            var token = GenerateJwtToken(user.AccountID, model.UserName, user.RoleName, user.PhoneNumber, user.Email, user.Address, _key);
+            var token = GenerateJwtToken(user.AccountID, model.UserName, user.RoleName, user.PhoneNumber, user.Email, user.Address, user.Status, _key);
 
             var loginResponse = new LoginResponse
             {
@@ -216,6 +214,7 @@ namespace ProjectSem3.Controllers
                     PhoneNumber = user.PhoneNumber,
                     Email = user.Email,
                     Address = user.Address,
+                    Status = user.Status,
                     // Gán các giá trị cần thiết khác từ đối tượng user
                 }
             };

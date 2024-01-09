@@ -13,8 +13,7 @@ namespace ProjectSem3.Model
         public int CartID { get; set; }
         [Required]
         public float Total { get; set; }
-        [DefaultValue("true")]
-        public bool Status { get; set; }
+        public bool Status { get; set; } = true;
         [Required]
         public string DeliveryType { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.Now;

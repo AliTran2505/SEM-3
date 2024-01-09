@@ -23,8 +23,8 @@ namespace ProjectSem3.Model
         [Required]
         public string Address { get; set; }
 
-        [DefaultValue("true")]
-        public bool Status {  get; set; }
+        
+        public bool Status {  get; set; } = true;
         public DateTime CreateAt { get; set; } = DateTime.Now;
         public DateTime? LastUpdateAt { get; set; } = DateTime.Now;
     }
