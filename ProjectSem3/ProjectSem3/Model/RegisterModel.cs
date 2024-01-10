@@ -11,8 +11,8 @@ namespace ProjectSem3.Model
         public string UserName { get; set; }
         [Required]
         public string Password { get; set; }
-        public string RoleName { get; set; } = "user";
-        [Required]
+        public string RoleName = "user";
+         [Required]
 
         public string Email { get; set; }
         

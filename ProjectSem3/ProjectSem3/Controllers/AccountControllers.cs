@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjectSem3.Model;
 using System.Text;
+using System.Linq;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -16,9 +17,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using NuGet.Common;
 using System;
+using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Net;
+using System.Runtime.Serialization.Json;
+using System.Net.Http.Json;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 
 namespace ProjectSem3.Controllers
@@ -61,7 +66,7 @@ namespace ProjectSem3.Controllers
         [HttpPost("/register")]
         public async Task<IActionResult> Register(RegisterModel model)
         {
-            var user = new Account { UserName = model.UserName, Password = model.Password, RoleName = model.RoleName, Email = model.Email, PhoneNumber = model.PhoneNumber, Address = model.Address };
+            var user = new Account { UserName = model.UserName, Password = model.Password,RoleName = model.RoleName, Email = model.Email, PhoneNumber = model.PhoneNumber, Address = model.Address };
 
             var result = await _userManager.CreateAsync(user);
 
@@ -91,32 +96,36 @@ namespace ProjectSem3.Controllers
             if (string.IsNullOrEmpty(Logtoken))
             {
                 _logger.LogWarning("Token not found in the request.");
-                HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
-
+                var data = (new { message = "Unauthorized", statusCode = 401 });
+                return new JsonResult(data);
             }
+
             var accountIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
 
             if (accountIdClaim == null)
             {
-                return BadRequest("Account ID not found in token");
+                var data = (new { message = "Account ID not found in token", statusCode = 400 });
+                return new JsonResult(data);
             }
 
             if (!int.TryParse(accountIdClaim.Value, out int accountId))
             {
-                return BadRequest("Invalid Account ID in token");
+                var data = (new { message = "Invalid Account ID in token", statusCode = 400 });
+                return new JsonResult(data);
+               
             }
 
             var account = _dbContext.Accounts.FirstOrDefault(a => a.AccountID == accountId);
 
             if (account == null)
             {
-                return NotFound("Account not found");
+                var data = (new { message = "Account not found", statusCode = 404 });
+                return new JsonResult(data);
             }
 
             // Return the account details as response
             return Ok(account);
         }
-
 
 
         [HttpPut("{accountId}")]

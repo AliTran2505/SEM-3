@@ -14,8 +14,8 @@ namespace ProjectSem3.Model
         public override string UserName { get; set; }
         [Required]
         public string Password { get; set; }
-        [DefaultValue("user")]
-        public string RoleName { get; set; } 
+
+        public string RoleName { get; set; } = "user";
         [Required]
         public string Email { get; set; }
         [Required]
@@ -24,7 +24,7 @@ namespace ProjectSem3.Model
         public string Address { get; set; }
 
         
-        public bool Status {  get; set; } = true;
+           public bool Status {  get; set; } = true;
         public DateTime CreateAt { get; set; } = DateTime.Now;
         public DateTime? LastUpdateAt { get; set; } = DateTime.Now;
     }
