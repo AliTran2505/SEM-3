@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,33 +16,33 @@ namespace ProjectSem3.Controllers
     [ApiController]
     public class CartsController : ControllerBase
     {
-        private readonly ShopDbContext _context;
+        private readonly ShopDbContext _dbcontext;
 
-        public CartsController(ShopDbContext context)
+        public CartsController(ShopDbContext dbcontext)
         {
-            _context = context;
+            _dbcontext = dbcontext;
         }
 
         // GET: api/Carts
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cart>>> GetCarts()
         {
-          if (_context.Carts == null)
+          if (_dbcontext.Carts == null)
           {
               return NotFound();
           }
-            return await _context.Carts.ToListAsync();
+            return await _dbcontext.Carts.ToListAsync();
         }
 
         // GET: api/Carts/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Cart>> GetCart(int id)
         {
-          if (_context.Carts == null)
+          if (_dbcontext.Carts == null)
           {
               return NotFound();
           }
-            var cart = await _context.Carts.FindAsync(id);
+            var cart = await _dbcontext.Carts.FindAsync(id);
 
             if (cart == null)
             {
@@ -55,7 +58,7 @@ namespace ProjectSem3.Controllers
         {
             try
             {
-                var cartItems = await _context.Carts
+                var cartItems = await _dbcontext.Carts
                     .Where(c => c.AccountID == accountId)
                     .ToListAsync();
 
@@ -74,7 +77,7 @@ namespace ProjectSem3.Controllers
         {   
             try
             {
-                var cartItem = await _context.Carts.FindAsync(id);
+                var cartItem = await _dbcontext.Carts.FindAsync(id);
                 if (cartItem == null)
                 {
                     return NotFound();
@@ -86,7 +89,7 @@ namespace ProjectSem3.Controllers
                 cartItem.CreateAt = updatedCartItem.CreateAt;
                 cartItem.LastUpdateAt = updatedCartItem.LastUpdateAt;
 
-                await _context.SaveChangesAsync();
+                await _dbcontext.SaveChangesAsync();
                 return Ok(cartItem);
             }
             catch (Exception ex)
@@ -97,44 +100,62 @@ namespace ProjectSem3.Controllers
         }
 
         // POST: api/Carts
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost]
         [Consumes("application/json")]
         public async Task<ActionResult<Cart>> PostCart(Cart cart)
         {
-          if (_context.Carts == null)
-          {
-              return Problem("Entity set 'ShopDbContext.Carts'  is null.");
-          }
-            _context.Carts.Add(cart);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var accountIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
 
-            return CreatedAtAction("GetCart", new { id = cart.CartID }, cart);
+                if (accountIdClaim == null || !int.TryParse(accountIdClaim.Value, out int accountId))
+                {
+                    return Unauthorized(new { message = "Invalid or missing AccountID in token", statusCode = 401 });
+                }
+
+                if (_dbcontext.Carts == null)
+                {
+                    return Problem("Entity set 'ShopDbdbcontext.Carts' is null.");
+                }
+
+                // Assign AccountID from token to cart
+                cart.AccountID = accountId;
+
+                _dbcontext.Carts.Add(cart);
+                await _dbcontext.SaveChangesAsync();
+
+                return CreatedAtAction("GetCart", new { id = cart.CartID }, cart);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // DELETE: api/Carts/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCart(int id)
         {
-            if (_context.Carts == null)
+            if (_dbcontext.Carts == null)
             {
                 return NotFound();
             }
-            var cart = await _context.Carts.FindAsync(id);
+            var cart = await _dbcontext.Carts.FindAsync(id);
             if (cart == null)
             {
                 return NotFound();
             }
 
-            _context.Carts.Remove(cart);
-            await _context.SaveChangesAsync();
+            _dbcontext.Carts.Remove(cart);
+            await _dbcontext.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool CartExists(int id)
         {
-            return (_context.Carts?.Any(e => e.CartID == id)).GetValueOrDefault();
+            return (_dbcontext.Carts?.Any(e => e.CartID == id)).GetValueOrDefault();
         }
     }
 }

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "4PRLv0G9x/yLNfB4WG8/GwCTSFdMG6IigYlEWwgnMMw=",
+  "Hash": "IdP8wERGiln//MWKyNsabtwPXMT46r8THLqgWXGGpt4=",
   "Source": "ProjectSem3",
   "BasePath": "_content/ProjectSem3",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "ProjectSem3\\wwwroot",
       "Source": "ProjectSem3",
-      "ContentRoot": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
+      "ContentRoot": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
       "BasePath": "_content/ProjectSem3",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\_829155235682364_2897997376858300069_n.jpg",
+      "Identity": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\_829155235682364_2897997376858300069_n.jpg",
       "SourceId": "ProjectSem3",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
+      "ContentRoot": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
       "BasePath": "_content/ProjectSem3",
       "RelativePath": "images/_829155235682364_2897997376858300069_n.jpg",
       "AssetKind": "All",
@@ -36,10 +36,10 @@
       "OriginalItemSpec": "wwwroot\\images\\_829155235682364_2897997376858300069_n.jpg"
     },
     {
-      "Identity": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\1022988.jpg",
+      "Identity": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\1022988.jpg",
       "SourceId": "ProjectSem3",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
+      "ContentRoot": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
       "BasePath": "_content/ProjectSem3",
       "RelativePath": "images/1022988.jpg",
       "AssetKind": "All",
@@ -55,10 +55,10 @@
       "OriginalItemSpec": "wwwroot\\images\\1022988.jpg"
     },
     {
-      "Identity": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\1694766497357.jpg",
+      "Identity": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\1694766497357.jpg",
       "SourceId": "ProjectSem3",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
+      "ContentRoot": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
       "BasePath": "_content/ProjectSem3",
       "RelativePath": "images/1694766497357.jpg",
       "AssetKind": "All",
@@ -74,10 +74,10 @@
       "OriginalItemSpec": "wwwroot\\images\\1694766497357.jpg"
     },
     {
-      "Identity": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\274206821_327761869144800_4776579931837215356_n (1).jpg",
+      "Identity": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\274206821_327761869144800_4776579931837215356_n (1).jpg",
       "SourceId": "ProjectSem3",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
+      "ContentRoot": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
       "BasePath": "_content/ProjectSem3",
       "RelativePath": "images/274206821_327761869144800_4776579931837215356_n (1).jpg",
       "AssetKind": "All",
@@ -93,10 +93,10 @@
       "OriginalItemSpec": "wwwroot\\images\\274206821_327761869144800_4776579931837215356_n (1).jpg"
     },
     {
-      "Identity": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\a1.jpg",
+      "Identity": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\a1.jpg",
       "SourceId": "ProjectSem3",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
+      "ContentRoot": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
       "BasePath": "_content/ProjectSem3",
       "RelativePath": "images/a1.jpg",
       "AssetKind": "All",
@@ -112,10 +112,10 @@
       "OriginalItemSpec": "wwwroot\\images\\a1.jpg"
     },
     {
-      "Identity": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\a1-3.jpg",
+      "Identity": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\a1-3.jpg",
       "SourceId": "ProjectSem3",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
+      "ContentRoot": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
       "BasePath": "_content/ProjectSem3",
       "RelativePath": "images/a1-3.jpg",
       "AssetKind": "All",
@@ -131,10 +131,10 @@
       "OriginalItemSpec": "wwwroot\\images\\a1-3.jpg"
     },
     {
-      "Identity": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\a2-1.jpg",
+      "Identity": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\a2-1.jpg",
       "SourceId": "ProjectSem3",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
+      "ContentRoot": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
       "BasePath": "_content/ProjectSem3",
       "RelativePath": "images/a2-1.jpg",
       "AssetKind": "All",
@@ -150,10 +150,10 @@
       "OriginalItemSpec": "wwwroot\\images\\a2-1.jpg"
     },
     {
-      "Identity": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\a2-3.jpg",
+      "Identity": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\a2-3.jpg",
       "SourceId": "ProjectSem3",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
+      "ContentRoot": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
       "BasePath": "_content/ProjectSem3",
       "RelativePath": "images/a2-3.jpg",
       "AssetKind": "All",
@@ -169,10 +169,10 @@
       "OriginalItemSpec": "wwwroot\\images\\a2-3.jpg"
     },
     {
-      "Identity": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\a3.jpg",
+      "Identity": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\a3.jpg",
       "SourceId": "ProjectSem3",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
+      "ContentRoot": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
       "BasePath": "_content/ProjectSem3",
       "RelativePath": "images/a3.jpg",
       "AssetKind": "All",
@@ -188,10 +188,10 @@
       "OriginalItemSpec": "wwwroot\\images\\a3.jpg"
     },
     {
-      "Identity": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\IMG_4682.JPG",
+      "Identity": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\IMG_4682.JPG",
       "SourceId": "ProjectSem3",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
+      "ContentRoot": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
       "BasePath": "_content/ProjectSem3",
       "RelativePath": "images/IMG_4682.JPG",
       "AssetKind": "All",
@@ -207,10 +207,10 @@
       "OriginalItemSpec": "wwwroot\\images\\IMG_4682.JPG"
     },
     {
-      "Identity": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\IMG_5101.jpg",
+      "Identity": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\IMG_5101.jpg",
       "SourceId": "ProjectSem3",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
+      "ContentRoot": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
       "BasePath": "_content/ProjectSem3",
       "RelativePath": "images/IMG_5101.jpg",
       "AssetKind": "All",
@@ -226,10 +226,10 @@
       "OriginalItemSpec": "wwwroot\\images\\IMG_5101.jpg"
     },
     {
-      "Identity": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\m1-3.jpg",
+      "Identity": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\m1-3.jpg",
       "SourceId": "ProjectSem3",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
+      "ContentRoot": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
       "BasePath": "_content/ProjectSem3",
       "RelativePath": "images/m1-3.jpg",
       "AssetKind": "All",
@@ -245,10 +245,10 @@
       "OriginalItemSpec": "wwwroot\\images\\m1-3.jpg"
     },
     {
-      "Identity": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\m2.jpg",
+      "Identity": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\m2.jpg",
       "SourceId": "ProjectSem3",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
+      "ContentRoot": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
       "BasePath": "_content/ProjectSem3",
       "RelativePath": "images/m2.jpg",
       "AssetKind": "All",
@@ -264,10 +264,10 @@
       "OriginalItemSpec": "wwwroot\\images\\m2.jpg"
     },
     {
-      "Identity": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\m2-3.jpg",
+      "Identity": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\m2-3.jpg",
       "SourceId": "ProjectSem3",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
+      "ContentRoot": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
       "BasePath": "_content/ProjectSem3",
       "RelativePath": "images/m2-3.jpg",
       "AssetKind": "All",
@@ -283,10 +283,10 @@
       "OriginalItemSpec": "wwwroot\\images\\m2-3.jpg"
     },
     {
-      "Identity": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\OIP.jfif",
+      "Identity": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\OIP.jfif",
       "SourceId": "ProjectSem3",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
+      "ContentRoot": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
       "BasePath": "_content/ProjectSem3",
       "RelativePath": "images/OIP.jfif",
       "AssetKind": "All",
@@ -302,10 +302,10 @@
       "OriginalItemSpec": "wwwroot\\images\\OIP.jfif"
     },
     {
-      "Identity": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\w1-1.jpg",
+      "Identity": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\w1-1.jpg",
       "SourceId": "ProjectSem3",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
+      "ContentRoot": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
       "BasePath": "_content/ProjectSem3",
       "RelativePath": "images/w1-1.jpg",
       "AssetKind": "All",
@@ -321,10 +321,10 @@
       "OriginalItemSpec": "wwwroot\\images\\w1-1.jpg"
     },
     {
-      "Identity": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\w1-2.jpg",
+      "Identity": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\w1-2.jpg",
       "SourceId": "ProjectSem3",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
+      "ContentRoot": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
       "BasePath": "_content/ProjectSem3",
       "RelativePath": "images/w1-2.jpg",
       "AssetKind": "All",
@@ -340,10 +340,10 @@
       "OriginalItemSpec": "wwwroot\\images\\w1-2.jpg"
     },
     {
-      "Identity": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\w2.jpg",
+      "Identity": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\w2.jpg",
       "SourceId": "ProjectSem3",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
+      "ContentRoot": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
       "BasePath": "_content/ProjectSem3",
       "RelativePath": "images/w2.jpg",
       "AssetKind": "All",
@@ -359,10 +359,10 @@
       "OriginalItemSpec": "wwwroot\\images\\w2.jpg"
     },
     {
-      "Identity": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\w2-3.jpg",
+      "Identity": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\w2-3.jpg",
       "SourceId": "ProjectSem3",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\New folder\\ProjectSem3\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
+      "ContentRoot": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
       "BasePath": "_content/ProjectSem3",
       "RelativePath": "images/w2-3.jpg",
       "AssetKind": "All",
