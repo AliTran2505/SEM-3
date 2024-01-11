@@ -28,11 +28,26 @@ namespace ProjectSem3.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-          if (_context.Products == null)
-          {
-              return NotFound();
-          }
-            return await _context.Products.ToListAsync();
+            try
+            {
+                if (_context.Products == null)
+                {
+                    return NotFound();
+                }
+
+                var products = await _context.Products
+                    .Include(p => p.Category) // Kết hợp thông tin của Category
+                    .ToListAsync();
+
+                // Bạn có thể thêm logic tại đây để chỉ chọn những trường bạn cần từ Category (nếu muốn)
+                // Ví dụ: products.ForEach(p => p.Category = new Category { CategoryID = p.Category.CategoryID, Name = p.Category.Name });
+
+                return products;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // GET: api/Products/5
