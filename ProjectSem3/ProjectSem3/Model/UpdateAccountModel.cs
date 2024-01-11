@@ -6,7 +6,7 @@ namespace ProjectSem3
 {
     public class UpdateAccountModel
     {
-       
+        public string UserName { get; set; }
 
         [Required]
         public string Password { get; set; }

@@ -127,26 +127,58 @@ namespace ProjectSem3.Controllers
             return Ok(account);
         }
 
-
-        [HttpPut("{accountId}")]
-        public async Task<IActionResult> UpdateAccount(int accountId, UpdateAccountModel model)
+        [HttpGet("/accounts/{id}")]
+        public IActionResult GetAccountById(int id)
         {
-            var account = await _dbContext.Accounts.FindAsync(accountId);
+            var account = _dbContext.Accounts.FirstOrDefault(a => a.AccountID == id);
 
             if (account == null)
             {
-                return NotFound("Account not found");
+                var data = new { message = "Account not found", statusCode = 404 };
+                return new JsonResult(data);
             }
-            // Cập nhật thông tin tài khoản từ dữ liệu mới
 
-            account.Email = model.Email;
-            account.PhoneNumber = model.PhoneNumber;
-            account.Address = model.Address;
-            // ... Cập nhật các thuộc tính khác
+            // Return the account details as response
+            return Ok(account);
+        }
+        [HttpPut("{accountId}")]
+        public async Task<IActionResult> UpdateAccount(int accountId, UpdateAccountModel model)
+        {
+            try
+            {
+                // Lấy Account theo ID từ URL
+                var account = await _dbContext.Accounts.FindAsync(accountId);
 
-            await _dbContext.SaveChangesAsync();
+                if (account == null)
+                {
+                    return NotFound("Account not found");
+                }
 
-            return Ok("Account updated successfully");
+                // Cập nhật thông tin tài khoản từ dữ liệu mới
+                var properties = typeof(UpdateAccountModel).GetProperties();
+                var accountProperties = typeof(Account).GetProperties();
+
+                foreach (var property in properties)
+                {
+                    // Kiểm tra xem trường thuộc tính có tồn tại trong Account không
+                    var correspondingProperty = accountProperties.FirstOrDefault(p => p.Name == property.Name);
+
+                    if (correspondingProperty != null)
+                    {
+                        // Lấy giá trị từ model và cập nhật vào tài khoản
+                        correspondingProperty.SetValue(account, property.GetValue(model));
+                    }
+                }
+
+                await _dbContext.SaveChangesAsync();
+
+                return Ok("Account updated successfully");
+            }
+            catch (Exception ex)
+            {
+                // Xử lý ngoại lệ nếu có
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
         }
         [HttpDelete("{accountId}")]
         public async Task<IActionResult> DeleteAccount(int accountId)

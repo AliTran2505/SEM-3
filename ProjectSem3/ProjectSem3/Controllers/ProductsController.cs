@@ -85,65 +85,112 @@ namespace ProjectSem3.Controllers
 
         // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutProduct(int id, Product product)
+        //{
+        //    if (id != product.ProductID)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    _context.Entry(product).State = EntityState.Modified;
+
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!ProductExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+
+        //    return NoContent();
+        //}
+
+        //update co anh 
+        [HttpPut("{productId}")]
+        public async Task<IActionResult> PutProduct(int productId, [FromForm] ProductImage p)
         {
-            if (id != product.ProductID)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(product).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                // Lấy Product theo ID từ URL
+                var product = await _context.Products.FindAsync(productId);
 
-            return NoContent();
+                if (product == null)
+                {
+                    return NotFound("Product not found");
+                }
+
+                // Không cần kiểm tra ProductID từ dữ liệu mới
+
+                // Cập nhật thông tin sản phẩm từ dữ liệu mới
+                product.CategoryID = p.CategoryID;
+                product.Description = p.Description;
+                product.Price = p.Price;
+                product.ProductName = p.ProductName;
+                product.Quantity = p.Quantity;
+                product.Status = p.Status;
+                product.LastUpdateAt = p.LastUpdateAt;
+
+                // Cập nhật hình ảnh nếu có
+                if (p.ImageFile != null && p.ImageFile.Length > 0)
+                {
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", p.ImageFile.FileName);
+                    using (var stream = System.IO.File.Create(path))
+                    {
+                        await p.ImageFile.CopyToAsync(stream);
+                    }
+                    product.Image = "/images/" + p.ImageFile.FileName;
+                }
+
+                await _context.SaveChangesAsync();
+
+                return Ok("Product updated successfully");
+            }
+            catch (Exception ex)
+            {
+                // Xử lý ngoại lệ nếu có
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
         }
 
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        [Consumes("application/json")]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
-        {
-          if (_context.Products == null)
-          {
-              return Problem("Entity set 'ShopDbContext.Products'  is null.");
-          }
-            _context.Products.Add(product);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException) 
-            {
-                if (!ProductExists(product.ProductID))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-           
+        //[HttpPost]
+        //[Consumes("application/json")]
+        //public async Task<ActionResult<Product>> PostProduct(Product product)
+        //{
+        //  if (_context.Products == null)
+        //  {
+        //      return Problem("Entity set 'ShopDbContext.Products'  is null.");
+        //  }
+        //    _context.Products.Add(product);
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateException) 
+        //    {
+        //        if (!ProductExists(product.ProductID))
+        //        {
+        //            return Conflict();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return CreatedAtAction("GetProduct", new { id = product.ProductID }, product);
-        }
+
+        //    return CreatedAtAction("GetProduct", new { id = product.ProductID }, product);
+        //}
         //POST IMAGE
         [HttpPost]
         [Route("uploadfile")]
