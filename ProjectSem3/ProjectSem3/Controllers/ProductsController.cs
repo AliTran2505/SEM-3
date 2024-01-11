@@ -40,28 +40,28 @@ namespace ProjectSem3.Controllers
         [Route("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-          if (_context.Products == null)
-          {
-              return NotFound();
-          }
-            var product = await _context.Products.FindAsync(id);
-
-            if (product == null)
+            try
             {
-                return NotFound();
+                if (_context.Products == null)
+                {
+                    return NotFound();
+                }
+
+                var product = await _context.Products
+                    .Include(p => p.Category) // Kết hợp thông tin của Category
+                    .FirstOrDefaultAsync(p => p.ProductID == id);
+
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                return product;
             }
-
-            return product;
-        }
-
-        [HttpGet]
-        [Route("Search-by-categoryname")]
-        public async Task<ActionResult<Product>> SearchProduct(string catName)
-        {
-            var products = _context.Products
-             .Where(p => p.Category.CategoryName == catName).ToList();
-
-            return Ok(products);
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
