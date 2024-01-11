@@ -56,6 +56,9 @@ namespace ProjectSem3.Controllers
                     return NotFound();
                 }
 
+                // Bạn có thể thêm logic tại đây để chỉ chọn những trường bạn cần từ Category (nếu muốn)
+                // Ví dụ: product.Category = new Category { CategoryID = product.Category.CategoryID, Name = product.Category.Name };
+
                 return product;
             }
             catch (Exception ex)
