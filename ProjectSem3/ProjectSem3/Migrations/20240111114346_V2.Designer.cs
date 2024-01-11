@@ -12,8 +12,8 @@ using ProjectSem3.Model;
 namespace ProjectSem3.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    [Migration("20240110055619_V1")]
-    partial class V1
+    [Migration("20240111114346_V2")]
+    partial class V2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -124,6 +124,9 @@ namespace ProjectSem3.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<bool>("Status")

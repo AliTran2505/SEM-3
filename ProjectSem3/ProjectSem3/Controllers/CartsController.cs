@@ -86,6 +86,7 @@ namespace ProjectSem3.Controllers
                 // Cập nhật thông tin mục trong giỏ hàng
                 cartItem.ProductID = updatedCartItem.ProductID;
                 cartItem.AccountID = updatedCartItem.AccountID;
+                cartItem.Quantity = updatedCartItem.Quantity;
                 cartItem.CreateAt = updatedCartItem.CreateAt;
                 cartItem.LastUpdateAt = updatedCartItem.LastUpdateAt;
 
@@ -99,11 +100,11 @@ namespace ProjectSem3.Controllers
 
         }
 
-        // POST: api/Carts
+        // POST: api/Carts them 1 san pham
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPost]
+        [HttpPost("AddSingleProductToCart")]
         [Consumes("application/json")]
-        public async Task<ActionResult<Cart>> PostCart(Cart cart)
+        public async Task<ActionResult<Cart>> AddSingleProductToCart(Cart cart)
         {
             try
             {
@@ -122,7 +123,20 @@ namespace ProjectSem3.Controllers
                 // Assign AccountID from token to cart
                 cart.AccountID = accountId;
 
-                _dbcontext.Carts.Add(cart);
+                var existingCartItem = _dbcontext.Carts.FirstOrDefault(c => c.AccountID == accountId && c.ProductID == cart.ProductID);
+
+                if (existingCartItem != null)
+                {
+                    // Increment quantity if the product already exists in the cart
+                    existingCartItem.Quantity += 1;
+                }
+                else
+                {
+                    // Otherwise, add the product to the cart with quantity 1
+                    cart.Quantity = 1;
+                    _dbcontext.Carts.Add(cart);
+                }
+
                 await _dbcontext.SaveChangesAsync();
 
                 return CreatedAtAction("GetCart", new { id = cart.CartID }, cart);
@@ -132,6 +146,56 @@ namespace ProjectSem3.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+        // them nhieu san pham cung loai vao cart
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("AddMultipleProductsToCart")]
+        [Consumes("application/json")]
+        public async Task<ActionResult<Cart>> AddMultipleProductsToCart(Cart cart)
+        {
+            try
+            {
+                var accountIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+
+                if (accountIdClaim == null || !int.TryParse(accountIdClaim.Value, out int accountId))
+                {
+                    return Unauthorized(new { message = "Invalid or missing AccountID in token", statusCode = 401 });
+                }
+
+                if (_dbcontext.Carts == null)
+                {
+                    return Problem("Entity set 'ShopDbdbcontext.Carts' is null.");
+                }
+
+                // Assign AccountID from token to cart
+                cart.AccountID = accountId;
+
+                var existingCartItem = _dbcontext.Carts.FirstOrDefault(c => c.AccountID == accountId && c.ProductID == cart.ProductID);
+
+                if (existingCartItem != null)
+                {
+                    // Increment quantity based on the incoming quantity in the request
+                    existingCartItem.Quantity += cart.Quantity;
+                }
+                else
+                {
+                    // Otherwise, add the product to the cart with the specified quantity
+                    _dbcontext.Carts.Add(cart);
+                }
+
+                await _dbcontext.SaveChangesAsync();
+
+                return CreatedAtAction("GetCart", new { id = cart.CartID }, cart);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+
 
         // DELETE: api/Carts/5
         [HttpDelete("{id}")]
