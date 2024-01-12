@@ -46,7 +46,8 @@ namespace ProjectSem3.Controllers
                         ProductID = oi.ProductID,
                         ProductName = oi.ProductName,
                         ProductPrice = oi.ProductPrice,
-                        Quantity = oi.Quantity
+                        Quantity = oi.Quantity,
+                        Image = oi.Image,
                     }).ToList()
                 }).ToList();
 
@@ -89,7 +90,8 @@ namespace ProjectSem3.Controllers
                         ProductID = oi.ProductID,
                         ProductName = oi.ProductName,
                         ProductPrice = oi.ProductPrice,
-                        Quantity = oi.Quantity
+                        Quantity = oi.Quantity,
+                        Image = oi.Image
                     }).ToList()
                 };
 
@@ -127,7 +129,8 @@ namespace ProjectSem3.Controllers
                         ProductID = oi.ProductID,
                         ProductName = oi.ProductName,
                         ProductPrice = oi.ProductPrice,
-                        Quantity = oi.Quantity
+                        Quantity = oi.Quantity,
+                        Image = oi.Image
                     }).ToList()
                 }).ToList();
 
@@ -183,6 +186,7 @@ namespace ProjectSem3.Controllers
                             ProductName = product.ProductName,
                             ProductPrice = product.Price,
                             Quantity = cartItem.Quantity,
+                            Image = cartItem.Product.Image
                             
                         };
 
@@ -211,7 +215,8 @@ namespace ProjectSem3.Controllers
                         ProductID = oi.ProductID,
                         ProductName = oi.ProductName,
                         ProductPrice = oi.ProductPrice,
-                        Quantity = oi.Quantity
+                        Quantity = oi.Quantity,
+                        Image = oi.Image
                     }).ToList()
                 };
 

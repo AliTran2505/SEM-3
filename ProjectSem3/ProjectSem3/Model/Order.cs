@@ -30,16 +30,11 @@ namespace ProjectSem3.Model
         public string ProductName { get; set; }
         public float ProductPrice { get; set; }
         public int Quantity { get; set; }
+
+        public string Image {  get; set; }
     }
 
-    public class OrderDto
-    {
-        public int OrderID { get; set; }
-        public int ProductID { get; set; }
-        public string ProductName { get; set; }
-        public float ProductPrice { get; set; }
-        public int Quantity { get; set; }
-    }
+
         public class FullOrderDto
     {
         public int OrderID { get; set; }
@@ -48,6 +43,16 @@ namespace ProjectSem3.Model
         public int AccountID { get; set; }
         public DateTime? LastUpdateAt { get; set; }
         public List<OrderDto> OrderItems { get; set; }
+    }
+    public class OrderDto
+    {
+        public int OrderID { get; set; }
+        public int ProductID { get; set; }
+        public string ProductName { get; set; }
+        public float ProductPrice { get; set; }
+        public int Quantity { get; set; }
+
+        public string Image { get; set; }
     }
 
 }

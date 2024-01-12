@@ -92,6 +92,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.UseHttpsRedirection();
+app.UseStaticFiles(); 
 
 app.UseCors("AllowOrigin");
 app.Run();

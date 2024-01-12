@@ -45,6 +45,7 @@ namespace ProjectSem3.Controllers
                         ProductName = cart.Product.ProductName,
                         Price = cart.Product.Price,
                         Description = cart.Product.Description,
+                        Image = cart.Product.Image,
                         CategoryID = cart.Product.CategoryID,
                         Category = new
                         {
@@ -73,6 +74,7 @@ namespace ProjectSem3.Controllers
                         CartID = cart.CartID,
                         ProductID = cart.ProductID,
                         Quantity = cart.Quantity,
+                        Image = cart.Product.Image,
                         Product = new
                         {
                             
