@@ -49,15 +49,12 @@ namespace ProjectSem3.Controllers
             UserManager<Account> userManager,
             IConfiguration config,
             ILogger<AccountControllers> logger,
-            IHttpContextAccessor httpContextAccessor,
             SignInManager<Account> signInManager,
             ShopDbContext dbContext)
         {
             _logger = logger;
             _config = config;
             _dbContext = dbContext;
-            _httpContextAccessor = httpContextAccessor;
-            var x = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier); //get in the constructor
             _userManager = userManager;
             _signInManager = signInManager;
             _key = Encoding.UTF8.GetBytes("E2m3O4r5U6g7e8n9K1e2y3F4o5r6Y7o8u9"); // Replace with your secret key
@@ -191,7 +188,7 @@ namespace ProjectSem3.Controllers
             }
 
             var cartsToRemove = _dbContext.Carts.Where(c => c.AccountID == accountId);
-            var ordersToRemove = _dbContext.Orders.Where(o => cartsToRemove.Any(c => c.CartID == o.CartID));
+            var ordersToRemove = _dbContext.Orders.Where(o => o.AccountID == accountId);
 
             _dbContext.Orders.RemoveRange(ordersToRemove);
             _dbContext.Carts.RemoveRange(cartsToRemove);

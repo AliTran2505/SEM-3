@@ -123,9 +123,8 @@ namespace ProjectSem3.Controllers
 
         // them nhieu san pham cung loai vao cart
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPost("AddMultipleProductsToCart")]
-        [Consumes("application/json")]
-        public async Task<ActionResult<Cart>> AddMultipleProductsToCart(Cart cart)
+        [HttpPost("AddProductToCart/{productId}/{quantity}")]
+        public async Task<ActionResult<Cart>> AddProductToCart(int productId, int quantity)
         {
             try
             {
@@ -141,34 +140,66 @@ namespace ProjectSem3.Controllers
                     return Problem("Entity set 'ShopDbdbcontext.Carts' is null.");
                 }
 
-                // Assign AccountID from token to cart
-                cart.AccountID = accountId;
+                // Kiểm tra nếu có sản phẩm có ProductID tương ứng
+                var existingProduct = await _dbcontext.Products.FindAsync(productId);
 
-                var existingCartItem = _dbcontext.Carts.FirstOrDefault(c => c.AccountID == accountId && c.ProductID == cart.ProductID);
-
-                if (existingCartItem != null)
+                if (existingProduct != null)
                 {
-                    // Increment quantity based on the incoming quantity in the request
-                    existingCartItem.Quantity += cart.Quantity;
+                    // Tạo đối tượng Cart và gán thông tin
+                    var cart = new Cart
+                    {
+                        AccountID = accountId,
+                        ProductID = existingProduct.ProductID,
+                        ProductName = existingProduct.ProductName,
+                        ProductPrice = existingProduct.Price,
+                        Quantity = quantity,
+                        // Thêm các thông tin khác theo yêu cầu vào đây
+                    };
 
-                    // Update total quantity in the database
-                    await UpdateTotalQuantity(existingCartItem.ProductID, accountId);
+                    // Kiểm tra nếu đã có cartItem tương ứng
+                    var existingCartItem = await _dbcontext.Carts
+                        .Where(c => c.AccountID == accountId && c.ProductID == productId)
+                        .FirstOrDefaultAsync();
+
+                    if (existingCartItem != null)
+                    {
+                        // Increment quantity based on the incoming quantity in the request
+                        existingCartItem.Quantity += quantity;
+
+                        // Update total quantity in the database
+                        await UpdateTotalQuantity(existingCartItem.ProductID, accountId);
+
+                        // Lấy lại thông tin của cart sau khi cập nhật
+                        existingCartItem = await _dbcontext.Carts
+                            .Where(c => c.AccountID == accountId && c.ProductID == productId)
+                            .FirstOrDefaultAsync();
+                    }
+                    else
+                    {
+                        // Otherwise, add the product to the cart with the specified quantity
+                        _dbcontext.Carts.Add(cart);
+                        await _dbcontext.SaveChangesAsync();
+
+                        // Lấy lại thông tin của cart sau khi thêm mới
+                        existingCartItem = await _dbcontext.Carts
+                            .Where(c => c.AccountID == accountId && c.ProductID == productId)
+                            .FirstOrDefaultAsync();
+                    }
+
+                    return existingCartItem;
                 }
                 else
                 {
-                    // Otherwise, add the product to the cart with the specified quantity
-                    _dbcontext.Carts.Add(cart);
+                    return BadRequest("Invalid ProductID");
                 }
-
-                await _dbcontext.SaveChangesAsync();
-
-                return CreatedAtAction("GetCart", new { id = cart.CartID }, cart);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
+
 
         private async Task UpdateTotalQuantity(int productId, int accountId)
         {
@@ -185,6 +216,7 @@ namespace ProjectSem3.Controllers
 
             await _dbcontext.SaveChangesAsync();
         }
+
 
 
 

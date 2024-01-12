@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using ProjectSem3.Model;
+using ProjectSem3.Model;   
 
 namespace ProjectSem3.Controllers
 {
@@ -13,118 +16,235 @@ namespace ProjectSem3.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private readonly ShopDbContext _context;
+        private readonly ShopDbContext _dbcontext;
 
-        public OrdersController(ShopDbContext context)
+        public OrdersController(ShopDbContext dbcontext)
         {
-            _context = context;
+            _dbcontext = dbcontext;
         }
 
-        // GET: api/Orders
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
-        {
-          if (_context.Orders == null)
-          {
-              return NotFound();
-          }
-            return await _context.Orders.ToListAsync();
-        }
-
-        // GET: api/Orders/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> GetOrder(int id)
-        {
-          if (_context.Orders == null)
-          {
-              return NotFound();
-          }
-            var order = await _context.Orders.FindAsync(id);
-
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            return order;
-        }
-
-        // PUT: api/Orders/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateOrder(int id, Order updatedOrder)
+        public async Task<ActionResult<IEnumerable<FullOrderDto>>> GetOrders()
         {
             try
             {
-                if (id != updatedOrder.OrderID)
+                // Lấy tất cả đơn đặt hàng từ database với OrderItems được kèm theo
+                var orders = await _dbcontext.Orders
+                    .Include(o => o.OrderItems)
+                    .ToListAsync();
+
+                // Chuyển đổi đối tượng Order sang đối tượng DTO để trả về
+                var orderDtos = orders.Select(order => new FullOrderDto
                 {
-                    return BadRequest();
-                }
+                    OrderID = order.OrderID,
+                    Status = order.Status,
+                    CreateAt = order.CreateAt,
+                    AccountID = order.AccountID,
+                    LastUpdateAt = order.LastUpdateAt,
+                    OrderItems = order.OrderItems.Select(oi => new OrderItemDto
+                    {
+                        ProductID = oi.ProductID,
+                        ProductName = oi.ProductName,
+                        ProductPrice = oi.ProductPrice,
+                        Quantity = oi.Quantity
+                    }).ToList()
+                }).ToList();
 
-                var existingOrder = await _context.Set<Order>().FindAsync(id);
+                return orderDtos;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-                if (existingOrder == null)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<FullOrderDto>> GetOrderById(int id)
+        {
+            try
+            {
+                // Lấy thông tin đơn đặt hàng từ database theo OrderID với OrderItems được kèm theo
+                var order = await _dbcontext.Orders
+                    .Include(o => o.OrderItems)
+                    .Where(o => o.OrderID == id)
+                    .FirstOrDefaultAsync();
+
+                if (order == null)
                 {
                     return NotFound();
                 }
 
-                existingOrder.CartID = updatedOrder.CartID;
-                existingOrder.Total = updatedOrder.Total;
-                existingOrder.Status = updatedOrder.Status;
-                existingOrder.DeliveryType = updatedOrder.DeliveryType;
-                existingOrder.LastUpdateAt = DateTime.Now;
+                // Chuyển đổi đối tượng Order sang đối tượng DTO để trả về
+                var orderDto = new FullOrderDto
+                {
+                    OrderID = order.OrderID,
+                    Status = order.Status,
+                    CreateAt = order.CreateAt,
+                    AccountID = order.AccountID,
+                    LastUpdateAt = order.LastUpdateAt,
+                    OrderItems = order.OrderItems.Select(oi => new OrderItemDto
+                    {
+                        ProductID = oi.ProductID,
+                        ProductName = oi.ProductName,
+                        ProductPrice = oi.ProductPrice,
+                        Quantity = oi.Quantity
+                    }).ToList()
+                };
 
-                await _context.SaveChangesAsync();
-
-                return NoContent();
+                return orderDto;
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-        // POST: api/Orders
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Order>> PostOrder(Order order)
+
+        [HttpGet("ByAccount/{accountId}")]
+        public async Task<ActionResult<IEnumerable<FullOrderDto>>> GetOrdersByAccount(int accountId)
         {
             try
             {
-                order.CreateAt = DateTime.Now;
-                _context.Set<Order>().Add(order);
-                await _context.SaveChangesAsync();
+                // Lấy tất cả đơn đặt hàng từ database theo AccountID với OrderItems được kèm theo
+                var orders = await _dbcontext.Orders
+                    .Include(o => o.OrderItems)
+                    .Where(o => o.AccountID == accountId)
+                    .ToListAsync();
 
-                return CreatedAtAction(nameof(GetOrder), new { id = order.OrderID }, order);
+                // Chuyển đổi đối tượng Order sang đối tượng DTO để trả về
+                var orderDtos = orders.Select(order => new FullOrderDto
+                {
+                    OrderID = order.OrderID,
+                    Status = order.Status,
+                    CreateAt = order.CreateAt,
+                    AccountID = order.AccountID,
+                    LastUpdateAt = order.LastUpdateAt,
+                    OrderItems = order.OrderItems.Select(oi => new OrderItemDto
+                    {
+                        ProductID = oi.ProductID,
+                        ProductName = oi.ProductName,
+                        ProductPrice = oi.ProductPrice,
+                        Quantity = oi.Quantity
+                    }).ToList()
+                }).ToList();
+
+                return orderDtos;
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
+        // POST: api/Orders
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("PlaceOrder/{accountId}")]
+        [Consumes("application/json")]
+        public IActionResult PlaceOrder(int accountId, [FromBody] List<int> cartItemIds)
+        {
+            try
+            {
+                // Lấy thông tin giỏ hàng từ database
+                var cartItems = _dbcontext.Carts.Where(c => c.AccountID == accountId && cartItemIds.Contains(c.CartID)).ToList();
+
+                if (cartItems == null || cartItems.Count == 0)
+                {
+                    return BadRequest("No items in the cart.");
+                }
+
+                // Tạo đối tượng Order
+                var order = new Order
+                {
+                    Status = true,
+                    AccountID = accountId,
+                    CreateAt = DateTime.Now
+                };
+
+                // Thêm Order vào database
+                _dbcontext.Orders.Add(order);
+                _dbcontext.SaveChanges();
+
+                var orderId = order.OrderID;
+
+                // Duyệt qua từng CartItem và tạo OrderItem tương ứng
+                foreach (var cartItem in cartItems)
+                {
+                    var product = _dbcontext.Products.Find(cartItem.ProductID);
+
+                    if (product != null)
+                    {
+                        var newOrderItem = new OrderItem
+                        {
+                            OrderID = orderId, // Truyền OrderID từ Order
+                            ProductID = cartItem.ProductID,
+                            ProductName = product.ProductName,
+                            ProductPrice = product.Price,
+                            Quantity = cartItem.Quantity,
+                        };
+
+                        // Thêm OrderItem vào danh sách OrderItems của Order
+                        order.OrderItems.Add(newOrderItem);
+                    }
+                }
+
+                // Lưu danh sách OrderItems vào cơ sở dữ liệu
+                _dbcontext.SaveChanges();
+
+                // Xóa toàn bộ thông tin các Cart có AccountID khớp với AccountID được truyền vào
+                _dbcontext.Carts.RemoveRange(cartItems);
+                _dbcontext.SaveChanges();
+
+                // Tạo đối tượng OrderDto để trả về
+                var orderDto = new FullOrderDto
+                {
+                    OrderID = order.OrderID,
+                    Status = order.Status,
+                    CreateAt = order.CreateAt,
+                    AccountID = order.AccountID,
+                    LastUpdateAt = order.LastUpdateAt,
+                    OrderItems = order.OrderItems.Select(oi => new OrderItemDto
+                    {
+                        ProductID = oi.ProductID,
+                        ProductName = oi.ProductName,
+                        ProductPrice = oi.ProductPrice,
+                        Quantity = oi.Quantity
+                    }).ToList()
+                };
+
+                // Trả về đối tượng OrderDto
+                return Ok(orderDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
 
         // DELETE: api/Orders/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
-            if (_context.Orders == null)
+            if (_dbcontext.Orders == null)
             {
                 return NotFound();
             }
-            var order = await _context.Orders.FindAsync(id);
+            var order = await _dbcontext.Orders.FindAsync(id);
             if (order == null)
             {
                 return NotFound();
             }
 
-            _context.Orders.Remove(order);
-            await _context.SaveChangesAsync();
+            _dbcontext.Orders.Remove(order);
+            await _dbcontext.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool OrderExists(int id)
         {
-            return (_context.Orders?.Any(e => e.OrderID == id)).GetValueOrDefault();
+            return (_dbcontext.Orders?.Any(e => e.OrderID == id)).GetValueOrDefault();
         }
     }
 }

@@ -11,6 +11,11 @@ namespace ProjectSem3.Model
         public int CartID { get; set; }
         [ForeignKey("Product")]
         public int ProductID { get; set; }
+
+        public string ProductName { get; set; }
+        public float ProductPrice { get; set; }
+
+
         [ForeignKey("Account")]
         public int AccountID { get; set; }
         public int Quantity { get; set; }

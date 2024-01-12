@@ -124,6 +124,13 @@ namespace ProjectSem3.Migrations
                     b.Property<int>("ProductID")
                         .HasColumnType("int");
 
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("ProductPrice")
+                        .HasColumnType("real");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -173,24 +180,17 @@ namespace ProjectSem3.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"), 1L, 1);
 
-                    b.Property<int>("CartID")
+                    b.Property<int>("AccountID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("DeliveryType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastUpdateAt")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
-
-                    b.Property<float>("Total")
-                        .HasColumnType("real");
 
                     b.HasKey("OrderID");
 
