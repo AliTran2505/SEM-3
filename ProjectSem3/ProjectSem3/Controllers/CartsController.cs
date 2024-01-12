@@ -23,46 +23,79 @@ namespace ProjectSem3.Controllers
             _dbcontext = dbcontext;
         }
 
+        
         // GET: api/Carts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Cart>>> GetCarts()
+        public async Task<ActionResult<IEnumerable<object>>> GetCarts()
         {
             if (_dbcontext.Carts == null)
             {
                 return NotFound();
             }
-            return await _dbcontext.Carts.ToListAsync();
+
+            var carts = await _dbcontext.Carts
+                .Include(c => c.Product) // Bao gồm thông tin sản phẩm
+                .Select(cart => new
+                {
+                    CartID = cart.CartID,
+                    ProductID = cart.ProductID,
+                    Quantity = cart.Quantity,
+                    Product = new
+                    {
+                        ProductName = cart.Product.ProductName,
+                        Price = cart.Product.Price,
+                        Description = cart.Product.Description,
+                        CategoryID = cart.Product.CategoryID,
+                        Category = new
+                        {
+                            CategoryName = cart.Product.Category.CategoryName,
+                            Description = cart.Product.Category.Description,
+                        }
+                        // Thêm các thông tin khác của Product nếu cần
+                    }
+                })
+                .ToListAsync();
+
+            return Ok(carts);
         }
 
         // GET: api/Carts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Cart>> GetCart(int id)
-        {
-            if (_dbcontext.Carts == null)
-            {
-                return NotFound();
-            }
-            var cart = await _dbcontext.Carts.FindAsync(id);
-
-            if (cart == null)
-            {
-                return NotFound();
-            }
-
-            return cart;
-        }
-
-        // Get products by accountid
-        [HttpGet("getitems/{accountId}")]
-        public async Task<IActionResult> GetCartItems(int accountId)
+        public async Task<ActionResult<object>> GetCart(int id)
         {
             try
             {
-                var cartItems = await _dbcontext.Carts
-                    .Where(c => c.AccountID == accountId)
-                    .ToListAsync();
+                var cart = await _dbcontext.Carts
+                    .Where(c => c.CartID == id)
+                    .Include(c => c.Product) // Bao gồm thông tin sản phẩm
+                    .Select(cart => new
+                    {
+                        CartID = cart.CartID,
+                        ProductID = cart.ProductID,
+                        Quantity = cart.Quantity,
+                        Product = new
+                        {
+                            
+                            ProductName = cart.Product.ProductName,
+                            Price = cart.Product.Price,
+                            Description = cart.Product.Description,
+                            CategoryID = cart.Product.CategoryID,
+                            Category = new
+                            {
+                                CategoryName = cart.Product.Category.CategoryName,
+                                Description = cart.Product.Category.Description,
+                            }
+                            // Thêm các thông tin khác của Product nếu cần
+                        }
+                    })
+                    .FirstOrDefaultAsync();
 
-                return Ok(cartItems);
+                if (cart == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(cart);
             }
             catch (Exception ex)
             {
@@ -70,14 +103,22 @@ namespace ProjectSem3.Controllers
             }
         }
 
+        // ... Các API khác không thay đổi
+
+
         // PUT: api/Carts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // PUT: api/Carts/5
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCart(int id, [FromQuery(Name = "type")] string type)
         {
             try
             {
-                var cartItem = await _dbcontext.Carts.FindAsync(id);
+                var cartItem = await _dbcontext.Carts
+                    .Where(c => c.CartID == id)
+                    .Include(c => c.Product) // Bao gồm thông tin sản phẩm
+                    .FirstOrDefaultAsync();
+
                 if (cartItem == null)
                 {
                     return NotFound();
@@ -116,11 +157,6 @@ namespace ProjectSem3.Controllers
             }
         }
 
-
-
-
-
-
         // them nhieu san pham cung loai vao cart
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("AddProductToCart/{productId}/{quantity}")]
@@ -145,20 +181,10 @@ namespace ProjectSem3.Controllers
 
                 if (existingProduct != null)
                 {
-                    // Tạo đối tượng Cart và gán thông tin
-                    var cart = new Cart
-                    {
-                        AccountID = accountId,
-                        ProductID = existingProduct.ProductID,
-                        ProductName = existingProduct.ProductName,
-                        ProductPrice = existingProduct.Price,
-                        Quantity = quantity,
-                        // Thêm các thông tin khác theo yêu cầu vào đây
-                    };
-
                     // Kiểm tra nếu đã có cartItem tương ứng
                     var existingCartItem = await _dbcontext.Carts
                         .Where(c => c.AccountID == accountId && c.ProductID == productId)
+                        .Include(c => c.Product) // Bao gồm thông tin sản phẩm
                         .FirstOrDefaultAsync();
 
                     if (existingCartItem != null)
@@ -172,10 +198,24 @@ namespace ProjectSem3.Controllers
                         // Lấy lại thông tin của cart sau khi cập nhật
                         existingCartItem = await _dbcontext.Carts
                             .Where(c => c.AccountID == accountId && c.ProductID == productId)
+                            .Include(c => c.Product) // Bao gồm thông tin sản phẩm
                             .FirstOrDefaultAsync();
+
+                        return existingCartItem;
                     }
                     else
                     {
+                        // Tạo đối tượng Cart và gán thông tin
+                        var cart = new Cart
+                        {
+                            AccountID = accountId,
+                            ProductID = existingProduct.ProductID,
+                            Quantity = quantity,
+                        };
+
+                        // Bao gồm thông tin sản phẩm
+                        cart.Product = existingProduct;
+
                         // Otherwise, add the product to the cart with the specified quantity
                         _dbcontext.Carts.Add(cart);
                         await _dbcontext.SaveChangesAsync();
@@ -183,10 +223,11 @@ namespace ProjectSem3.Controllers
                         // Lấy lại thông tin của cart sau khi thêm mới
                         existingCartItem = await _dbcontext.Carts
                             .Where(c => c.AccountID == accountId && c.ProductID == productId)
+                            .Include(c => c.Product) // Bao gồm thông tin sản phẩm
                             .FirstOrDefaultAsync();
-                    }
 
-                    return existingCartItem;
+                        return existingCartItem;
+                    }
                 }
                 else
                 {
@@ -198,7 +239,6 @@ namespace ProjectSem3.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
 
 
         private async Task UpdateTotalQuantity(int productId, int accountId)
@@ -217,10 +257,6 @@ namespace ProjectSem3.Controllers
             await _dbcontext.SaveChangesAsync();
         }
 
-
-
-
-
         // DELETE: api/Carts/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCart(int id)
@@ -229,7 +265,12 @@ namespace ProjectSem3.Controllers
             {
                 return NotFound();
             }
-            var cart = await _dbcontext.Carts.FindAsync(id);
+
+            var cart = await _dbcontext.Carts
+                .Where(c => c.CartID == id)
+                .Include(c => c.Product) // Bao gồm thông tin sản phẩm
+                .FirstOrDefaultAsync();
+
             if (cart == null)
             {
                 return NotFound();
@@ -241,9 +282,5 @@ namespace ProjectSem3.Controllers
             return NoContent();
         }
 
-        private bool CartExists(int id)
-        {
-            return (_dbcontext.Carts?.Any(e => e.CartID == id)).GetValueOrDefault();
-        }
     }
 }

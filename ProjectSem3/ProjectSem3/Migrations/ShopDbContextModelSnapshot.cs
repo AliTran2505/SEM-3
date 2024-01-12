@@ -124,13 +124,6 @@ namespace ProjectSem3.Migrations
                     b.Property<int>("ProductID")
                         .HasColumnType("int");
 
-                    b.Property<string>("ProductName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("ProductPrice")
-                        .HasColumnType("real");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -138,6 +131,8 @@ namespace ProjectSem3.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("CartID");
+
+                    b.HasIndex("ProductID");
 
                     b.ToTable("Cart");
                 });
@@ -197,6 +192,37 @@ namespace ProjectSem3.Migrations
                     b.ToTable("Order");
                 });
 
+            modelBuilder.Entity("ProjectSem3.Model.OrderItem", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<int>("OrderID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("ProductPrice")
+                        .HasColumnType("real");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("OrderID");
+
+                    b.ToTable("OrderItems");
+                });
+
             modelBuilder.Entity("ProjectSem3.Model.Product", b =>
                 {
                     b.Property<int>("ProductID")
@@ -242,6 +268,26 @@ namespace ProjectSem3.Migrations
                     b.ToTable("Product");
                 });
 
+            modelBuilder.Entity("ProjectSem3.Model.Cart", b =>
+                {
+                    b.HasOne("ProjectSem3.Model.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("ProjectSem3.Model.OrderItem", b =>
+                {
+                    b.HasOne("ProjectSem3.Model.Order", null)
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ProjectSem3.Model.Product", b =>
                 {
                     b.HasOne("ProjectSem3.Model.Category", "Category")
@@ -251,6 +297,11 @@ namespace ProjectSem3.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("ProjectSem3.Model.Order", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 #pragma warning restore 612, 618
         }
