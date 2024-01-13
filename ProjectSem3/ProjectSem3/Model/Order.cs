@@ -11,11 +11,14 @@ namespace ProjectSem3.Model
         [Key]
         public int OrderID { get; set; }
         public bool Status { get; set; } = true;
-        public DateTime CreateAt { get; set; } = DateTime.Now;
-        [ForeignKey("AccountID")]
-        public int AccountID { get; set; }
         public DateTime? LastUpdateAt { get; set; } = DateTime.Now;
+        public DateTime CreateAt { get; set; } = DateTime.Now;
+        [ForeignKey("Account")]
+        public int AccountID { get; set; }
+        public Account Account { get; set; }
+
         public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+       
 
     }
 
@@ -26,7 +29,10 @@ namespace ProjectSem3.Model
 
         [ForeignKey("Order")]
         public int OrderID { get; set; }
+        [ForeignKey("Product")]
         public int ProductID { get; set; }
+
+        public virtual Product Product { get; set; }
         public string ProductName { get; set; }
         public float ProductPrice { get; set; }
         public int Quantity { get; set; }
@@ -42,7 +48,17 @@ namespace ProjectSem3.Model
         public DateTime CreateAt { get; set; }
         public int AccountID { get; set; }
         public DateTime? LastUpdateAt { get; set; }
+        public AccountDto Account { get; set; }
         public List<OrderDto> OrderItems { get; set; }
+    }
+
+    public class AccountDto
+    {
+        public string UserName { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string Adress { get; set; }
+
     }
     public class OrderDto
     {

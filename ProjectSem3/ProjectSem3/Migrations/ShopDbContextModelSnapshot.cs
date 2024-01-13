@@ -132,6 +132,8 @@ namespace ProjectSem3.Migrations
 
                     b.HasKey("CartID");
 
+                    b.HasIndex("AccountID");
+
                     b.HasIndex("ProductID");
 
                     b.ToTable("Cart");
@@ -189,6 +191,8 @@ namespace ProjectSem3.Migrations
 
                     b.HasKey("OrderID");
 
+                    b.HasIndex("AccountID");
+
                     b.ToTable("Order");
                 });
 
@@ -223,6 +227,8 @@ namespace ProjectSem3.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("OrderID");
+
+                    b.HasIndex("ProductID");
 
                     b.ToTable("OrderItems");
                 });
@@ -274,13 +280,32 @@ namespace ProjectSem3.Migrations
 
             modelBuilder.Entity("ProjectSem3.Model.Cart", b =>
                 {
+                    b.HasOne("ProjectSem3.Model.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ProjectSem3.Model.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Account");
+
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("ProjectSem3.Model.Order", b =>
+                {
+                    b.HasOne("ProjectSem3.Model.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
                 });
 
             modelBuilder.Entity("ProjectSem3.Model.OrderItem", b =>
@@ -290,6 +315,14 @@ namespace ProjectSem3.Migrations
                         .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("ProjectSem3.Model.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("ProjectSem3.Model.Product", b =>

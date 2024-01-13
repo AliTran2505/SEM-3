@@ -40,7 +40,6 @@ namespace ProjectSem3.Controllers
         private readonly ShopDbContext _dbContext;
         private IConfiguration _config;
         private readonly ILogger<AccountControllers> _logger;
-        private IHttpContextAccessor _httpContextAccessor;
 
 
 

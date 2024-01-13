@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\images\\b250cd3d-908f-4ae2-abd9-0a774eb69aba.jfif"
     },
     {
+      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\e0d97c25-aaa6-455f-8b5c-e18df6c471d0.jpg",
+      "PackagePath": "staticwebassets\\images\\e0d97c25-aaa6-455f-8b5c-e18df6c471d0.jpg"
+    },
+    {
       "Id": "obj\\Release\\net6.0\\staticwebassets\\msbuild.ProjectSem3.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

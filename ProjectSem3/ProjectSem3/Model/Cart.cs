@@ -15,10 +15,13 @@ namespace ProjectSem3.Model
 
         [ForeignKey("Account")]
         public int AccountID { get; set; }
+        public Account Account { get; set; }
         public int Quantity { get; set; }
         public bool Status { get; set; } = true;
         public DateTime CreateAt { get; set; } = DateTime.Now;
         public DateTime? LastUpdateAt { get; set; } = DateTime.Now;
+
+
 
     }
 }

@@ -30,6 +30,7 @@ namespace ProjectSem3.Controllers
                 // Lấy tất cả đơn đặt hàng từ database với OrderItems được kèm theo
                 var orders = await _dbcontext.Orders
                     .Include(o => o.OrderItems)
+                    .Include(o => o.Account)  // Kèm theo thông tin tài khoản
                     .ToListAsync();
 
                 // Chuyển đổi đối tượng Order sang đối tượng DTO để trả về
@@ -48,7 +49,15 @@ namespace ProjectSem3.Controllers
                         ProductPrice = oi.ProductPrice,
                         Quantity = oi.Quantity,
                         Image = oi.Image,
-                    }).ToList()
+                    }).ToList(),
+                    Account = new AccountDto
+                    {
+                        UserName = order.Account.UserName,
+                        Phone = order.Account.PhoneNumber,
+                        Email = order.Account.Email,
+                        Adress = order.Account.Address
+                        // Thêm các trường thông tin tài khoản khác (nếu cần)
+                    }
                 }).ToList();
 
                 return orderDtos;
@@ -59,7 +68,6 @@ namespace ProjectSem3.Controllers
             }
         }
 
-
         [HttpGet("{id}")]
         public async Task<ActionResult<FullOrderDto>> GetOrderById(int id)
         {
@@ -68,6 +76,7 @@ namespace ProjectSem3.Controllers
                 // Lấy thông tin đơn đặt hàng từ database theo OrderID với OrderItems được kèm theo
                 var order = await _dbcontext.Orders
                     .Include(o => o.OrderItems)
+                    .Include(o => o.Account)  // Kèm theo thông tin tài khoản
                     .Where(o => o.OrderID == id)
                     .FirstOrDefaultAsync();
 
@@ -86,13 +95,21 @@ namespace ProjectSem3.Controllers
                     LastUpdateAt = order.LastUpdateAt,
                     OrderItems = order.OrderItems.Select(oi => new OrderDto
                     {
-                        OrderID= oi.OrderID,
+                        OrderID = oi.OrderID,
                         ProductID = oi.ProductID,
                         ProductName = oi.ProductName,
                         ProductPrice = oi.ProductPrice,
                         Quantity = oi.Quantity,
                         Image = oi.Image
-                    }).ToList()
+                    }).ToList(),
+                    Account = new AccountDto
+                    {
+                        UserName = order.Account.UserName,
+                        Phone = order.Account.PhoneNumber,
+                        Email = order.Account.Email,
+                        Adress = order.Account.Address
+                        // Thêm các trường thông tin tài khoản khác (nếu cần)
+                    }
                 };
 
                 return orderDto;
@@ -103,7 +120,6 @@ namespace ProjectSem3.Controllers
             }
         }
 
-
         [HttpGet("ByAccount/{accountId}")]
         public async Task<ActionResult<IEnumerable<FullOrderDto>>> GetOrdersByAccount(int accountId)
         {
@@ -112,6 +128,7 @@ namespace ProjectSem3.Controllers
                 // Lấy tất cả đơn đặt hàng từ database theo AccountID với OrderItems được kèm theo
                 var orders = await _dbcontext.Orders
                     .Include(o => o.OrderItems)
+                    .Include(o => o.Account)  // Kèm theo thông tin tài khoản
                     .Where(o => o.AccountID == accountId)
                     .ToListAsync();
 
@@ -131,7 +148,15 @@ namespace ProjectSem3.Controllers
                         ProductPrice = oi.ProductPrice,
                         Quantity = oi.Quantity,
                         Image = oi.Image
-                    }).ToList()
+                    }).ToList(),
+                    Account = new AccountDto
+                    {
+                        UserName = order.Account.UserName,
+                        Phone = order.Account.PhoneNumber,
+                        Email = order.Account.Email,
+                        Adress = order.Account.Address
+                        // Thêm các trường thông tin tài khoản khác (nếu cần)
+                    }
                 }).ToList();
 
                 return orderDtos;
@@ -142,6 +167,7 @@ namespace ProjectSem3.Controllers
             }
         }
 
+
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("PlaceOrder/{accountId}")]
@@ -151,19 +177,26 @@ namespace ProjectSem3.Controllers
             try
             {
                 // Lấy thông tin giỏ hàng từ database
-                var cartItems = _dbcontext.Carts.Where(c => c.AccountID == accountId && cartItemIds.Contains(c.CartID)).ToList();
+                var cartItems = _dbcontext.Carts
+                    .Where(c => c.AccountID == accountId && cartItemIds.Contains(c.CartID))
+                    .Include(c => c.Product) // Bao gồm thông tin sản phẩm
+                    .ToList();
 
                 if (cartItems == null || cartItems.Count == 0)
                 {
                     return BadRequest("No items in the cart.");
                 }
 
+                // Lấy thông tin tài khoản
+                var account = _dbcontext.Accounts.Find(accountId);
+
                 // Tạo đối tượng Order
                 var order = new Order
                 {
                     Status = true,
                     AccountID = accountId,
-                    CreateAt = DateTime.Now
+                    CreateAt = DateTime.Now,
+                    Account = account // Gán thông tin tài khoản vào đơn hàng
                 };
 
                 // Thêm Order vào database
@@ -175,19 +208,18 @@ namespace ProjectSem3.Controllers
                 // Duyệt qua từng CartItem và tạo OrderItem tương ứng
                 foreach (var cartItem in cartItems)
                 {
-                    var product = _dbcontext.Products.Find(cartItem.ProductID);
+                    var product = cartItem.Product;
 
                     if (product != null)
                     {
                         var newOrderItem = new OrderItem
                         {
-                            OrderID = orderId, // Truyền OrderID từ Order
+                            OrderID = orderId,
                             ProductID = cartItem.ProductID,
                             ProductName = product.ProductName,
                             ProductPrice = product.Price,
                             Quantity = cartItem.Quantity,
-                            Image = cartItem.Product.Image
-                            
+                            Image = product.Image
                         };
 
                         // Thêm OrderItem vào danh sách OrderItems của Order
@@ -203,31 +235,41 @@ namespace ProjectSem3.Controllers
                 _dbcontext.SaveChanges();
 
                 // Tạo đối tượng OrderDto để trả về
-                var Order = new Order
+                var orderDto = new FullOrderDto
                 {
                     OrderID = order.OrderID,
                     Status = order.Status,
                     CreateAt = order.CreateAt,
                     AccountID = order.AccountID,
                     LastUpdateAt = order.LastUpdateAt,
-                    OrderItems = order.OrderItems.Select(oi => new OrderItem
+                    OrderItems = order.OrderItems.Select(oi => new OrderDto
                     {
                         ProductID = oi.ProductID,
                         ProductName = oi.ProductName,
                         ProductPrice = oi.ProductPrice,
                         Quantity = oi.Quantity,
                         Image = oi.Image
-                    }).ToList()
+                    }).ToList(),
+                    Account = new AccountDto
+                    {
+                        UserName = order.Account.UserName,
+                        Phone = order.Account.PhoneNumber,
+                        Email = order.Account.Email,
+                        Adress = order.Account.Address
+
+                        // Thêm các trường thông tin tài khoản khác (nếu cần)
+                    }
                 };
 
                 // Trả về đối tượng OrderDto
-                return Ok(order);
+                return Ok(orderDto);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
 
 
 
