@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using ProjectSem3.Model;
 using System;
@@ -12,91 +13,150 @@ namespace ProjectSem3.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly ShopDbContext _context;
+        private readonly ShopDbContext _dbcontext;
 
-        public ProductsController(ShopDbContext context)
+        public ProductsController(ShopDbContext dbcontext)
         {
-            _context = context;
+            _dbcontext = dbcontext;
         }
 
         [HttpGet]
         public async Task<ActionResult<IQueryable<ProductDto>>> GetProducts()
         {
-            var products = await _context.Products
-                .Include(p => p.Category)
-                .Select(p => ProductToDto(p))
-                .ToListAsync();
+            try
+            {
+                var products = await _dbcontext.Products
+                    .Include(p => p.Category)
+                    .Select(p => ProductToDto(p)) // Use the updated mapping method
+                    .ToListAsync();
 
-            return Ok(products);
+                return Ok(products);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductDto>> GetProduct(int id)
         {
-            var product = await _context.Products
-                .Include(p => p.Category)
-                .FirstOrDefaultAsync(p => p.ProductID == id);
-
-            if (product == null)
+            try
             {
-                return NotFound();
-            }
+                var product = await _dbcontext.Products
+                    .Include(p => p.Category)
+                    .FirstOrDefaultAsync(p => p.ProductID == id);
 
-            return Ok(ProductToDto(product));
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                // Use the updated mapping method
+                var productDto = ProductToDto(product);
+
+                return Ok(productDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
 
         [HttpPost]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> PostProduct([FromForm] ProductImage productDto)
         {
-            var existingProduct = await _context.Products
-                .FirstOrDefaultAsync(p => p.ProductName == productDto.ProductName);
-
-            if (existingProduct != null)
+            try
             {
-                return BadRequest("Product with the same name already exists.");
-            }
+                // Trích xuất CategoryID từ dữ liệu form
+                var categoryId = Convert.ToInt32(productDto.CategoryID);
 
-            var product = new Product
-            {
-                CategoryID = productDto.CategoryID,
-                ProductName = productDto.ProductName,
-                Description = productDto.Description,
-                Price = productDto.Price,
-                Quantity = productDto.Quantity,
-                Status = productDto.Status,
-                CreateAt = DateTime.Now,
-                LastUpdateAt = DateTime.Now
+                // Check if the product with the same name already exists
+                var existingProduct = await _dbcontext.Products
+                    .FirstOrDefaultAsync(p => p.ProductName == productDto.ProductName);
 
-            };
-            if (productDto.ImageFile != null && productDto.ImageFile.Length > 0)
-            {
-                var imageName = Guid.NewGuid().ToString() + Path.GetExtension(productDto.ImageFile.FileName);
-                var imagePath = Path.Combine("wwwroot/images/", imageName);
-
-                using (var stream = System.IO.File.Create(imagePath))
+                if (existingProduct != null)
                 {
-                    await productDto.ImageFile.CopyToAsync(stream);
+                    // Xử lý existingProduct nếu cần thiết
                 }
 
-                product.Image = "/images/" + imageName;
+                // Truy vấn category hiện tại hoặc tạo mới nếu chưa tồn tại
+                var existingCategory = await _dbcontext.Categories.FindAsync(categoryId);
+
+                if (existingCategory == null)
+                {
+                    // Tạo mới category nếu không tìm thấy
+                    existingCategory = new Category
+                    {
+                        CategoryID = categoryId,
+                        // Các thông tin khác của category
+                    };
+
+                    // Thêm category mới vào cơ sở dữ liệu
+                    _dbcontext.Categories.Add(existingCategory);
+                    await _dbcontext.SaveChangesAsync();
+                }
+
+                // Tạo một sản phẩm mới
+                var product = new Product
+                {
+                    CategoryID = categoryId,
+                    ProductName = productDto.ProductName,
+                    Description = productDto.Description,
+                    Price = productDto.Price,
+                    Quantity = productDto.Quantity,
+                    Status = productDto.Status,
+                    CreateAt = DateTime.Now,
+                    LastUpdateAt = DateTime.Now
+                };
+
+                // Lưu ảnh của sản phẩm
+                if (productDto.ImageFile != null && productDto.ImageFile.Length > 0)
+                {
+                    var imageName = Guid.NewGuid().ToString() + Path.GetExtension(productDto.ImageFile.FileName);
+                    var imagePath = Path.Combine("wwwroot/images/", imageName);
+
+                    using (var stream = System.IO.File.Create(imagePath))
+                    {
+                        await productDto.ImageFile.CopyToAsync(stream);
+                    }
+
+                    product.Image = "/images/" + imageName;
+                }
+
+                // Liên kết sản phẩm với category hiện tại
+                product.Category = existingCategory;
+
+                // Thêm sản phẩm vào cơ sở dữ liệu
+                _dbcontext.Products.Add(product);
+                await _dbcontext.SaveChangesAsync();
+
+                // Chuyển đổi sản phẩm sang DTO để trả về
+                var productDtoResponse = ProductToDto(product);
+
+                return CreatedAtAction(nameof(GetProduct), new { id = product.ProductID }, productDtoResponse);
             }
-
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetProduct), new { id = product.ProductID }, ProductToDto(product));
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
+
+
+
 
         [HttpPut("{productId}")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> PutProduct(int productId, [FromForm] ProductImage productDto)
         {
-            using (var transaction = _context.Database.BeginTransaction())
+            using (var transaction = _dbcontext.Database.BeginTransaction())
             {
                 try
                 {
-                    var product = await _context.Products.FindAsync(productId);
+                    var product = await _dbcontext.Products.FindAsync(productId);
 
                     if (product == null)
                     {
@@ -116,6 +176,7 @@ namespace ProjectSem3.Controllers
                     product.Status = productDto.Status;
                     product.LastUpdateAt = DateTime.Now;
 
+                    // Lưu ảnh mới của sản phẩm
                     if (productDto.ImageFile != null && productDto.ImageFile.Length > 0)
                     {
                         var imageName = Guid.NewGuid().ToString() + Path.GetExtension(productDto.ImageFile.FileName);
@@ -126,25 +187,38 @@ namespace ProjectSem3.Controllers
                             await productDto.ImageFile.CopyToAsync(stream);
                         }
 
+                        // Xóa ảnh cũ và cập nhật đường dẫn ảnh mới
+                        if (!string.IsNullOrEmpty(product.Image))
+                        {
+                            var oldImagePath = Path.Combine("wwwroot", product.Image.TrimStart('/'));
+                            if (System.IO.File.Exists(oldImagePath))
+                            {
+                                System.IO.File.Delete(oldImagePath);
+                            }
+                        }
+
                         product.Image = "/images/" + imageName;
                     }
 
-                    await _context.SaveChangesAsync();
+                    await _dbcontext.SaveChangesAsync();
 
                     // Cập nhật thông tin sản phẩm trong đơn hàng (Orders)
-                    var ordersToUpdate = await _context.Orders
+                    var ordersToUpdate = await _dbcontext.Orders
+                        .Include(o => o.OrderItems)
                         .Where(o => o.OrderItems.Any(oi => oi.ProductID == productId))
                         .ToListAsync();
 
                     foreach (var order in ordersToUpdate)
                     {
                         var orderItem = order.OrderItems.First(oi => oi.ProductID == productId);
-                        orderItem.ProductName = productDto.ProductName;
-                        orderItem.ProductPrice = productDto.Price;
+                        orderItem.Product.ProductName = productDto.ProductName;
+                        orderItem.Product.Price = productDto.Price;
+                        orderItem.Product.Description = productDto.Description;
+                        orderItem.Product.Image = product.Image; // Cập nhật đường dẫn ảnh mới
                     }
 
                     // Cập nhật thông tin sản phẩm trong giỏ hàng (Carts)
-                    var cartsToUpdate = await _context.Carts
+                    var cartsToUpdate = await _dbcontext.Carts
                         .Where(c => c.ProductID == productId)
                         .ToListAsync();
 
@@ -153,9 +227,10 @@ namespace ProjectSem3.Controllers
                         cart.Product.ProductName = productDto.ProductName;
                         cart.Product.Price = productDto.Price;
                         cart.Product.Description = productDto.Description;
+                        cart.Product.Image = product.Image; // Cập nhật đường dẫn ảnh mới
                     }
 
-                    await _context.SaveChangesAsync();
+                    await _dbcontext.SaveChangesAsync();
 
                     transaction.Commit();
 
@@ -170,10 +245,11 @@ namespace ProjectSem3.Controllers
         }
 
 
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _dbcontext.Products.FindAsync(id);
 
             if (product == null)
             {
@@ -181,21 +257,23 @@ namespace ProjectSem3.Controllers
             }
 
             // Remove product from all carts
-            var carts = _context.Carts.Where(c => c.ProductID == id);
-            _context.Carts.RemoveRange(carts);
+            var carts = _dbcontext.Carts.Where(c => c.ProductID == id);
+            _dbcontext.Carts.RemoveRange(carts);
 
             // Remove product from all orders
-            var orderItems = _context.OrderItems.Where(oi => oi.ProductID == id);
-            var orders = _context.Orders.Where(o => orderItems.Select(oi => oi.OrderID).Contains(o.OrderID));
-            _context.OrderItems.RemoveRange(orderItems);
-            _context.Orders.RemoveRange(orders);
+            var orderItems = _dbcontext.OrderItems.Where(oi => oi.ProductID == id);
+            var orders = _dbcontext.Orders.Where(o => orderItems.Select(oi => oi.OrderID).Contains(o.OrderID));
+            _dbcontext.OrderItems.RemoveRange(orderItems);
+            _dbcontext.Orders.RemoveRange(orders);
 
             // Remove product
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            _dbcontext.Products.Remove(product);
+            await _dbcontext.SaveChangesAsync();
 
             return NoContent();
         }
+
+
 
         private static ProductDto ProductToDto(Product product) => new ProductDto
         {
@@ -209,10 +287,13 @@ namespace ProjectSem3.Controllers
             Status = product.Status,
             CreateAt = product.CreateAt,
             LastUpdateAt = product.LastUpdateAt,
+            Category = new CategoryDto
+            {
+                CategoryID = product.Category.CategoryID,
+                CategoryName = product.Category.CategoryName,
+                Description = product.Category.Description
+            }
         };
 
-        
-           
-        
     }
 }

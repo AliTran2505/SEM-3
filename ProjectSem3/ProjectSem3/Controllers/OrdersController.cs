@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Evaluation;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using ProjectSem3.Model;
@@ -23,44 +24,19 @@ namespace ProjectSem3.Controllers
             _dbcontext = dbcontext;
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FullOrderDto>>> GetOrders()
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
             try
             {
-                // Lấy tất cả đơn đặt hàng từ database với OrderItems được kèm theo
+                // Lấy tất cả đơn đặt hàng từ database với OrderItems và Account được kèm theo
                 var orders = await _dbcontext.Orders
                     .Include(o => o.OrderItems)
-                    .Include(o => o.Account)  // Kèm theo thông tin tài khoản
+                        .ThenInclude(oi => oi.Product) // Bao gồm thông tin sản phẩm
+                        .ThenInclude(p => p.Category) // Bao gồm thông tin danh mục
+                    .Include(o => o.Account) // Kèm theo thông tin tài khoản
                     .ToListAsync();
 
-                // Chuyển đổi đối tượng Order sang đối tượng DTO để trả về
-                var orderDtos = orders.Select(order => new FullOrderDto
-                {
-                    OrderID = order.OrderID,
-                    Status = order.Status,
-                    CreateAt = order.CreateAt,
-                    AccountID = order.AccountID,
-                    LastUpdateAt = order.LastUpdateAt,
-                    OrderItems = order.OrderItems.Select(oi => new OrderDto
-                    {
-                        OrderID = oi.OrderID,
-                        ProductID = oi.ProductID,
-                        ProductName = oi.ProductName,
-                        ProductPrice = oi.ProductPrice,
-                        Quantity = oi.Quantity,
-                        Image = oi.Image,
-                    }).ToList(),
-                    Account = new AccountDto
-                    {
-                        UserName = order.Account.UserName,
-                        Phone = order.Account.PhoneNumber,
-                        Email = order.Account.Email,
-                        Adress = order.Account.Address
-                        // Thêm các trường thông tin tài khoản khác (nếu cần)
-                    }
-                }).ToList();
-
-                return orderDtos;
+                return orders;
             }
             catch (Exception ex)
             {
@@ -68,15 +44,18 @@ namespace ProjectSem3.Controllers
             }
         }
 
+
         [HttpGet("{id}")]
-        public async Task<ActionResult<FullOrderDto>> GetOrderById(int id)
+        public async Task<ActionResult<Order>> GetOrderById(int id)
         {
             try
             {
-                // Lấy thông tin đơn đặt hàng từ database theo OrderID với OrderItems được kèm theo
+                // Lấy thông tin đơn đặt hàng từ database theo OrderID với OrderItems và Account được kèm theo
                 var order = await _dbcontext.Orders
                     .Include(o => o.OrderItems)
-                    .Include(o => o.Account)  // Kèm theo thông tin tài khoản
+                        .ThenInclude(oi => oi.Product) // Bao gồm thông tin sản phẩm
+                        .ThenInclude(p => p.Category) // Bao gồm thông tin danh mục
+                    .Include(o => o.Account) // Kèm theo thông tin tài khoản
                     .Where(o => o.OrderID == id)
                     .FirstOrDefaultAsync();
 
@@ -85,34 +64,7 @@ namespace ProjectSem3.Controllers
                     return NotFound();
                 }
 
-                // Chuyển đổi đối tượng Order sang đối tượng DTO để trả về
-                var orderDto = new FullOrderDto
-                {
-                    OrderID = order.OrderID,
-                    Status = order.Status,
-                    CreateAt = order.CreateAt,
-                    AccountID = order.AccountID,
-                    LastUpdateAt = order.LastUpdateAt,
-                    OrderItems = order.OrderItems.Select(oi => new OrderDto
-                    {
-                        OrderID = oi.OrderID,
-                        ProductID = oi.ProductID,
-                        ProductName = oi.ProductName,
-                        ProductPrice = oi.ProductPrice,
-                        Quantity = oi.Quantity,
-                        Image = oi.Image
-                    }).ToList(),
-                    Account = new AccountDto
-                    {
-                        UserName = order.Account.UserName,
-                        Phone = order.Account.PhoneNumber,
-                        Email = order.Account.Email,
-                        Adress = order.Account.Address
-                        // Thêm các trường thông tin tài khoản khác (nếu cần)
-                    }
-                };
-
-                return orderDto;
+                return order;
             }
             catch (Exception ex)
             {
@@ -120,46 +72,22 @@ namespace ProjectSem3.Controllers
             }
         }
 
+
         [HttpGet("ByAccount/{accountId}")]
-        public async Task<ActionResult<IEnumerable<FullOrderDto>>> GetOrdersByAccount(int accountId)
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrdersByAccount(int accountId)
         {
             try
             {
-                // Lấy tất cả đơn đặt hàng từ database theo AccountID với OrderItems được kèm theo
+                // Lấy tất cả đơn đặt hàng từ database theo AccountID với OrderItems và Account được kèm theo
                 var orders = await _dbcontext.Orders
                     .Include(o => o.OrderItems)
-                    .Include(o => o.Account)  // Kèm theo thông tin tài khoản
+                        .ThenInclude(oi => oi.Product) // Bao gồm thông tin sản phẩm
+                        .ThenInclude(p => p.Category) // Bao gồm thông tin danh mục
+                    .Include(o => o.Account) // Kèm theo thông tin tài khoản
                     .Where(o => o.AccountID == accountId)
                     .ToListAsync();
 
-                // Chuyển đổi đối tượng Order sang đối tượng DTO để trả về
-                var orderDtos = orders.Select(order => new FullOrderDto
-                {
-                    OrderID = order.OrderID,
-                    Status = order.Status,
-                    CreateAt = order.CreateAt,
-                    AccountID = order.AccountID,
-                    LastUpdateAt = order.LastUpdateAt,
-                    OrderItems = order.OrderItems.Select(oi => new OrderDto
-                    {
-                        OrderID = oi.OrderID,
-                        ProductID = oi.ProductID,
-                        ProductName = oi.ProductName,
-                        ProductPrice = oi.ProductPrice,
-                        Quantity = oi.Quantity,
-                        Image = oi.Image
-                    }).ToList(),
-                    Account = new AccountDto
-                    {
-                        UserName = order.Account.UserName,
-                        Phone = order.Account.PhoneNumber,
-                        Email = order.Account.Email,
-                        Adress = order.Account.Address
-                        // Thêm các trường thông tin tài khoản khác (nếu cần)
-                    }
-                }).ToList();
-
-                return orderDtos;
+                return orders;
             }
             catch (Exception ex)
             {
@@ -168,17 +96,22 @@ namespace ProjectSem3.Controllers
         }
 
 
+
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("PlaceOrder/{accountId}")]
         [Consumes("application/json")]
-        public IActionResult PlaceOrder(int accountId, [FromBody] List<int> cartItemIds)
+        public IActionResult PlaceOrder(int accountId, [FromBody] List<int> cartIds)
         {
             try
             {
+                if (accountId == 0 || cartIds == null || !cartIds.Any())
+                {
+                    return BadRequest("Invalid request data");
+                }
+
                 // Lấy thông tin giỏ hàng từ database
                 var cartItems = _dbcontext.Carts
-                    .Where(c => c.AccountID == accountId && cartItemIds.Contains(c.CartID))
+                    .Where(c => c.AccountID == accountId && cartIds.Contains(c.CartID))
                     .Include(c => c.Product) // Bao gồm thông tin sản phẩm
                     .ToList();
 
@@ -205,70 +138,46 @@ namespace ProjectSem3.Controllers
 
                 var orderId = order.OrderID;
 
-                // Duyệt qua từng CartItem và tạo OrderItem tương ứng
+                // Tạo đối tượng OrderItem cho mỗi sản phẩm trong giỏ hàng
                 foreach (var cartItem in cartItems)
                 {
-                    var product = cartItem.Product;
-
-                    if (product != null)
+                    var newOrderItem = new OrderItem
                     {
-                        var newOrderItem = new OrderItem
-                        {
-                            OrderID = orderId,
-                            ProductID = cartItem.ProductID,
-                            ProductName = product.ProductName,
-                            ProductPrice = product.Price,
-                            Quantity = cartItem.Quantity,
-                            Image = product.Image
-                        };
+                        OrderID = orderId,
+                        ProductID = cartItem.ProductID,
+                        Quantity = cartItem.Quantity,
+                        Product = cartItem.Product // Gán thông tin sản phẩm từ CartItem
+                    };
 
-                        // Thêm OrderItem vào danh sách OrderItems của Order
-                        order.OrderItems.Add(newOrderItem);
-                    }
+                    // Thêm OrderItem vào danh sách OrderItems của Order
+                    order.OrderItems.Add(newOrderItem);
+
+                    // Lưu OrderItem vào cơ sở dữ liệu
+                    _dbcontext.OrderItems.Add(newOrderItem);
                 }
 
-                // Lưu danh sách OrderItems vào cơ sở dữ liệu
+                // Lưu thay đổi vào cơ sở dữ liệu
                 _dbcontext.SaveChanges();
 
-                // Xóa toàn bộ thông tin các Cart có AccountID khớp với AccountID được truyền vào
+                // Xóa các sản phẩm đã được đặt hàng khỏi giỏ hàng
                 _dbcontext.Carts.RemoveRange(cartItems);
                 _dbcontext.SaveChanges();
 
-                // Tạo đối tượng OrderDto để trả về
-                var orderDto = new FullOrderDto
-                {
-                    OrderID = order.OrderID,
-                    Status = order.Status,
-                    CreateAt = order.CreateAt,
-                    AccountID = order.AccountID,
-                    LastUpdateAt = order.LastUpdateAt,
-                    OrderItems = order.OrderItems.Select(oi => new OrderDto
-                    {
-                        ProductID = oi.ProductID,
-                        ProductName = oi.ProductName,
-                        ProductPrice = oi.ProductPrice,
-                        Quantity = oi.Quantity,
-                        Image = oi.Image
-                    }).ToList(),
-                    Account = new AccountDto
-                    {
-                        UserName = order.Account.UserName,
-                        Phone = order.Account.PhoneNumber,
-                        Email = order.Account.Email,
-                        Adress = order.Account.Address
-
-                        // Thêm các trường thông tin tài khoản khác (nếu cần)
-                    }
-                };
-
-                // Trả về đối tượng OrderDto
-                return Ok(orderDto);
+                return Ok("Order placed successfully.");
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
+        // Class để bind dữ liệu từ body request
+        public class PlaceOrderRequest
+        {
+            public List<int> CartItemIds { get; set; }
+        }
+
+
 
 
 

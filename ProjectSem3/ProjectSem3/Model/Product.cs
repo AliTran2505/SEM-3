@@ -34,7 +34,7 @@ namespace ProjectSem3.Model
 
         public DateTime? LastUpdateAt { get; set; } = DateTime.Now;
 
-        public virtual Category Category { get; set; }
+        public Category Category { get; set; }
     }
 
     public class ProductDto
@@ -62,6 +62,14 @@ namespace ProjectSem3.Model
 
         public DateTime? LastUpdateAt { get; set; } = DateTime.Now;
 
-        public virtual Category Category { get; set; }
+        public CategoryDto Category { get; set; }
+    }
+
+    // Include the CategoryDto class
+    public class CategoryDto
+    {
+        public int CategoryID { get; set; }
+        public string CategoryName { get; set; }
+        public string Description { get; set; }
     }
 }

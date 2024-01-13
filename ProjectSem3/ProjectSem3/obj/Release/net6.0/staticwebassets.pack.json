@@ -5,6 +5,18 @@
       "PackagePath": "staticwebassets\\images\\2f44d333-b000-4462-8cdc-ff545bc5cca5.jfif"
     },
     {
+      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\3f023de2-3fe3-4031-8e4b-9e0a5a78ec70.jpg",
+      "PackagePath": "staticwebassets\\images\\3f023de2-3fe3-4031-8e4b-9e0a5a78ec70.jpg"
+    },
+    {
+      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\44218acf-8b8a-40ac-9a6e-0af68ce3f8ad.jpg",
+      "PackagePath": "staticwebassets\\images\\44218acf-8b8a-40ac-9a6e-0af68ce3f8ad.jpg"
+    },
+    {
+      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\641c648d-0af6-46a5-9237-7bd74318b4ce.jfif",
+      "PackagePath": "staticwebassets\\images\\641c648d-0af6-46a5-9237-7bd74318b4ce.jfif"
+    },
+    {
       "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\89f4a7da-a72f-43c3-93d5-4e3e4ac6ce1d.jfif",
       "PackagePath": "staticwebassets\\images\\89f4a7da-a72f-43c3-93d5-4e3e4ac6ce1d.jfif"
     },
@@ -13,8 +25,16 @@
       "PackagePath": "staticwebassets\\images\\b250cd3d-908f-4ae2-abd9-0a774eb69aba.jfif"
     },
     {
+      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\b63da097-f14d-44d4-9072-a69160fd1af5.jpg",
+      "PackagePath": "staticwebassets\\images\\b63da097-f14d-44d4-9072-a69160fd1af5.jpg"
+    },
+    {
       "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\e0d97c25-aaa6-455f-8b5c-e18df6c471d0.jpg",
       "PackagePath": "staticwebassets\\images\\e0d97c25-aaa6-455f-8b5c-e18df6c471d0.jpg"
+    },
+    {
+      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\e5bf51a6-1111-4fe8-89b9-44ebb949618e.jfif",
+      "PackagePath": "staticwebassets\\images\\e5bf51a6-1111-4fe8-89b9-44ebb949618e.jfif"
     },
     {
       "Id": "obj\\Release\\net6.0\\staticwebassets\\msbuild.ProjectSem3.Microsoft.AspNetCore.StaticWebAssets.props",

@@ -32,12 +32,9 @@ namespace ProjectSem3.Model
         [ForeignKey("Product")]
         public int ProductID { get; set; }
 
-        public virtual Product Product { get; set; }
-        public string ProductName { get; set; }
-        public float ProductPrice { get; set; }
         public int Quantity { get; set; }
 
-        public string Image {  get; set; }
+        public  Product Product { get; set; }
     }
 
 
@@ -57,18 +54,17 @@ namespace ProjectSem3.Model
         public string UserName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public string Adress { get; set; }
+        public string Address { get; set; }
 
     }
     public class OrderDto
     {
+        public int ID { get; set; }
+
         public int OrderID { get; set; }
         public int ProductID { get; set; }
-        public string ProductName { get; set; }
-        public float ProductPrice { get; set; }
         public int Quantity { get; set; }
-
-        public string Image { get; set; }
+        public Product Product { get; set; }
     }
 
 }

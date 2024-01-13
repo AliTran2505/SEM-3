@@ -23,67 +23,76 @@ namespace ProjectSem3.Controllers
             _dbcontext = dbcontext;
         }
 
-        
+
         // GET: api/Carts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<object>>> GetCarts()
+        public async Task<ActionResult<IEnumerable<CartDto>>> GetCarts()
         {
-            if (_dbcontext.Carts == null)
+            try
             {
-                return NotFound();
-            }
-
-            var carts = await _dbcontext.Carts
-                .Include(c => c.Product) // Bao gồm thông tin sản phẩm
-                .Select(cart => new
-                {
-                    CartID = cart.CartID,
-                    ProductID = cart.ProductID,
-                    Quantity = cart.Quantity,
-                    Product = new
+                var carts = await _dbcontext.Carts
+                    .Include(c => c.Product)
+                    .ThenInclude(p => p.Category) // Bao gồm thông tin danh mục
+                    .Select(cart => new CartDto
                     {
-                        ProductName = cart.Product.ProductName,
-                        Price = cart.Product.Price,
-                        Description = cart.Product.Description,
-                        Image = cart.Product.Image,
-                        CategoryID = cart.Product.CategoryID,
-                        Category = new
+                        CartID = cart.CartID,
+                        AccountID = cart.AccountID,
+                        ProductID = cart.ProductID,
+                        Quantity = cart.Quantity,
+                        Product = new ProductDto
                         {
-                            CategoryName = cart.Product.Category.CategoryName,
-                            Description = cart.Product.Category.Description,
+                            ProductID = cart.ProductID,
+                            ProductName = cart.Product.ProductName,
+                            Price = cart.Product.Price,
+                            Description = cart.Product.Description,
+                            Image = cart.Product.Image,
+                            CategoryID = cart.Product.CategoryID,
+                            Category = new CategoryDto
+                            {
+                                CategoryID = cart.Product.CategoryID,
+                                CategoryName = cart.Product.Category.CategoryName,
+                                Description = cart.Product.Category.Description,
+                            }
+                            // Thêm các thông tin khác của Product nếu cần
                         }
-                        // Thêm các thông tin khác của Product nếu cần
-                    }
-                })
-                .ToListAsync();
+                    })
+                    .ToListAsync();
 
-            return Ok(carts);
+                return Ok(carts);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // GET: api/Carts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<object>> GetCart(int id)
+        public async Task<ActionResult<CartDto>> GetCart(int id)
         {
             try
             {
                 var cart = await _dbcontext.Carts
                     .Where(c => c.CartID == id)
-                    .Include(c => c.Product) // Bao gồm thông tin sản phẩm
-                    .Select(cart => new
+                    .Include(c => c.Product)
+                    .ThenInclude(p => p.Category) // Bao gồm thông tin danh mục
+                    .Select(cart => new CartDto
                     {
                         CartID = cart.CartID,
+                        AccountID = cart.AccountID,
                         ProductID = cart.ProductID,
                         Quantity = cart.Quantity,
-                        Image = cart.Product.Image,
-                        Product = new
+                        Product = new ProductDto
                         {
-                            
+                            ProductID = cart.ProductID,
                             ProductName = cart.Product.ProductName,
+                            Quantity = cart.Quantity,
                             Price = cart.Product.Price,
                             Description = cart.Product.Description,
+                            Image = cart.Product.Image,
                             CategoryID = cart.Product.CategoryID,
-                            Category = new
+                            Category = new CategoryDto
                             {
+                                CategoryID = cart.Product.CategoryID,
                                 CategoryName = cart.Product.Category.CategoryName,
                                 Description = cart.Product.Category.Description,
                             }
@@ -158,14 +167,20 @@ namespace ProjectSem3.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        private async Task<Product> GetProductByIdAsync(int productId)
+        {
+            return await _dbcontext.Products
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.ProductID == productId);
+        }
 
-        // them nhieu san pham cung loai vao cart
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("AddProductToCart/{productId}/{quantity}")]
-        public async Task<ActionResult<Cart>> AddProductToCart(int productId, int quantity)
+        public async Task<ActionResult<CartDto>> AddProductToCart(int productId, int quantity)
         {
             try
             {
+                // Lấy thông tin AccountID từ token
                 var accountIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
 
                 if (accountIdClaim == null || !int.TryParse(accountIdClaim.Value, out int accountId))
@@ -178,15 +193,15 @@ namespace ProjectSem3.Controllers
                     return Problem("Entity set 'ShopDbdbcontext.Carts' is null.");
                 }
 
-                // Kiểm tra nếu có sản phẩm có ProductID tương ứng
-                var existingProduct = await _dbcontext.Products.FindAsync(productId);
+                // Lấy thông tin sản phẩm từ cơ sở dữ liệu
+                var existingProduct = await GetProductByIdAsync(productId);
 
                 if (existingProduct != null)
                 {
                     // Kiểm tra nếu đã có cartItem tương ứng
                     var existingCartItem = await _dbcontext.Carts
                         .Where(c => c.AccountID == accountId && c.ProductID == productId)
-                        .Include(c => c.Product) // Bao gồm thông tin sản phẩm
+                        .Include(c => c.Product)
                         .FirstOrDefaultAsync();
 
                     if (existingCartItem != null)
@@ -200,10 +215,10 @@ namespace ProjectSem3.Controllers
                         // Lấy lại thông tin của cart sau khi cập nhật
                         existingCartItem = await _dbcontext.Carts
                             .Where(c => c.AccountID == accountId && c.ProductID == productId)
-                            .Include(c => c.Product) // Bao gồm thông tin sản phẩm
+                            .Include(c => c.Product)
                             .FirstOrDefaultAsync();
 
-                        return existingCartItem;
+                        return CartToDto(existingCartItem);
                     }
                     else
                     {
@@ -218,6 +233,9 @@ namespace ProjectSem3.Controllers
                         // Bao gồm thông tin sản phẩm
                         cart.Product = existingProduct;
 
+                        // Thêm thông tin CategoryID vào Cart
+                        cart.Product.Category.CategoryID = existingProduct.CategoryID;
+
                         // Otherwise, add the product to the cart with the specified quantity
                         _dbcontext.Carts.Add(cart);
                         await _dbcontext.SaveChangesAsync();
@@ -225,10 +243,10 @@ namespace ProjectSem3.Controllers
                         // Lấy lại thông tin của cart sau khi thêm mới
                         existingCartItem = await _dbcontext.Carts
                             .Where(c => c.AccountID == accountId && c.ProductID == productId)
-                            .Include(c => c.Product) // Bao gồm thông tin sản phẩm
+                            .Include(c => c.Product)
                             .FirstOrDefaultAsync();
 
-                        return existingCartItem;
+                        return CartToDto(existingCartItem);
                     }
                 }
                 else
@@ -240,6 +258,54 @@ namespace ProjectSem3.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+
+
+        // Chuyển đối tượng Cart sang đối tượng DTO
+        private CartDto CartToDto(Cart cart)
+        {
+            return new CartDto
+            {
+                CartID = cart.CartID,
+                AccountID = cart.AccountID,
+                ProductID = cart.ProductID,
+                Quantity = cart.Quantity,
+                Status = cart.Status,
+                CreateAt = cart.CreateAt,
+                Product = new ProductDto
+                {
+                    ProductID = cart.Product.ProductID,
+                    CategoryID = cart.Product.CategoryID,
+                    ProductName = cart.Product.ProductName,
+                    Description = cart.Product.Description,
+                    Image = cart.Product.Image,
+                    Price = cart.Product.Price,
+                    Quantity = cart.Product.Quantity,
+                    Status = cart.Product.Status,
+                    CreateAt = cart.Product.CreateAt,
+                    LastUpdateAt = cart.Product.LastUpdateAt,
+                    Category = new CategoryDto
+                    {
+                        CategoryID = cart.Product.Category.CategoryID,
+                        CategoryName = cart.Product.Category.CategoryName,
+                        Description = cart.Product.Category.Description
+                    }
+                }
+            };
+        }
+
+        // DTO cho Cart
+        public class CartDto
+        {
+            public int CartID { get; set; }
+            public int AccountID { get; set; }
+            public int ProductID { get; set; }
+            public int Quantity { get; set; }
+            public bool Status { get; set; }
+            public DateTime CreateAt { get; set; }
+            public DateTime LastUpdateAt { get; set; } = DateTime.Now;
+            public ProductDto Product { get; set; }
         }
 
 
