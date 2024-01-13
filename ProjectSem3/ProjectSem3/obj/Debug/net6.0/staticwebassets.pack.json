@@ -37,6 +37,14 @@
       "PackagePath": "staticwebassets\\images\\e5bf51a6-1111-4fe8-89b9-44ebb949618e.jfif"
     },
     {
+      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\fbc84151-965b-4cad-892c-bec213dc729a.jpg",
+      "PackagePath": "staticwebassets\\images\\fbc84151-965b-4cad-892c-bec213dc729a.jpg"
+    },
+    {
+      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\fc44db5d-8838-48e3-84ce-4c16c18aaa04.jpg",
+      "PackagePath": "staticwebassets\\images\\fc44db5d-8838-48e3-84ce-4c16c18aaa04.jpg"
+    },
+    {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.ProjectSem3.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

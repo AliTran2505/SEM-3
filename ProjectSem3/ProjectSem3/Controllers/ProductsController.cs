@@ -123,7 +123,7 @@ namespace ProjectSem3.Controllers
                         await productDto.ImageFile.CopyToAsync(stream);
                     }
 
-                    product.Image = "/images/" + imageName;
+                    product.Image = imageName;
                 }
 
                 // Liên kết sản phẩm với category hiện tại
@@ -156,7 +156,9 @@ namespace ProjectSem3.Controllers
             {
                 try
                 {
-                    var product = await _dbcontext.Products.FindAsync(productId);
+                    var product = await _dbcontext.Products
+                        .Include(p => p.Category)
+                        .FirstOrDefaultAsync(p => p.ProductID == productId);
 
                     if (product == null)
                     {
@@ -197,7 +199,7 @@ namespace ProjectSem3.Controllers
                             }
                         }
 
-                        product.Image = "/images/" + imageName;
+                        product.Image = imageName;
                     }
 
                     await _dbcontext.SaveChangesAsync();
@@ -244,12 +246,12 @@ namespace ProjectSem3.Controllers
             }
         }
 
-
-
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            var product = await _dbcontext.Products.FindAsync(id);
+            var product = await _dbcontext.Products
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.ProductID == id);
 
             if (product == null)
             {
@@ -273,8 +275,6 @@ namespace ProjectSem3.Controllers
             return NoContent();
         }
 
-
-
         private static ProductDto ProductToDto(Product product) => new ProductDto
         {
             ProductID = product.ProductID,
@@ -287,13 +287,14 @@ namespace ProjectSem3.Controllers
             Status = product.Status,
             CreateAt = product.CreateAt,
             LastUpdateAt = product.LastUpdateAt,
-            Category = new CategoryDto
+            Category = product.Category != null ? new CategoryDto
             {
                 CategoryID = product.Category.CategoryID,
                 CategoryName = product.Category.CategoryName,
                 Description = product.Category.Description
-            }
+            } : null
         };
+
 
     }
 }
