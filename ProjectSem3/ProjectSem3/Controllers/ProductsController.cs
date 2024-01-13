@@ -141,9 +141,8 @@ namespace ProjectSem3.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
-            }
+            }   
         }
-
 
 
 
@@ -168,6 +167,7 @@ namespace ProjectSem3.Controllers
                     // Lưu thông tin cũ của sản phẩm
                     var oldProductName = product.ProductName;
                     var oldProductPrice = product.Price;
+                    var oldImagePath = product.Image; // Lưu đường dẫn ảnh cũ
 
                     // Cập nhật thông tin sản phẩm
                     product.CategoryID = productDto.CategoryID;
@@ -189,13 +189,13 @@ namespace ProjectSem3.Controllers
                             await productDto.ImageFile.CopyToAsync(stream);
                         }
 
-                        // Xóa ảnh cũ và cập nhật đường dẫn ảnh mới
-                        if (!string.IsNullOrEmpty(product.Image))
+                        // Xóa ảnh cũ nếu tồn tại
+                        if (!string.IsNullOrEmpty(oldImagePath))
                         {
-                            var oldImagePath = Path.Combine("wwwroot", product.Image.TrimStart('/'));
-                            if (System.IO.File.Exists(oldImagePath))
+                            var oldImageFullPath = Path.Combine("wwwroot", oldImagePath.TrimStart('/'));
+                            if (System.IO.File.Exists(oldImageFullPath))
                             {
-                                System.IO.File.Delete(oldImagePath);
+                                System.IO.File.Delete(oldImageFullPath);
                             }
                         }
 
@@ -246,6 +246,7 @@ namespace ProjectSem3.Controllers
             }
         }
 
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
@@ -256,6 +257,16 @@ namespace ProjectSem3.Controllers
             if (product == null)
             {
                 return NotFound();
+            }
+
+            // Xóa ảnh cũ nếu tồn tại
+            if (!string.IsNullOrEmpty(product.Image))
+            {
+                var oldImageFullPath = Path.Combine("wwwroot", product.Image.TrimStart('/'));
+                if (System.IO.File.Exists(oldImageFullPath))
+                {
+                    System.IO.File.Delete(oldImageFullPath);
+                }
             }
 
             // Remove product from all carts
