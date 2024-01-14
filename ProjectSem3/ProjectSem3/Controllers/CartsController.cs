@@ -175,8 +175,8 @@ namespace ProjectSem3.Controllers
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPost("AddProductToCart/{productId}/{quantity}")]
-        public async Task<ActionResult<CartDto>> AddProductToCart(int productId, int quantity)
+        [HttpPost("AddProductToCart")]
+        public async Task<ActionResult<CartDto>> AddProductToCart([FromBody] CartRequestDto cartRequest)
         {
             try
             {
@@ -194,27 +194,27 @@ namespace ProjectSem3.Controllers
                 }
 
                 // Lấy thông tin sản phẩm từ cơ sở dữ liệu
-                var existingProduct = await GetProductByIdAsync(productId);
+                var existingProduct = await GetProductByIdAsync(cartRequest.ProductID);
 
                 if (existingProduct != null)
                 {
                     // Kiểm tra nếu đã có cartItem tương ứng
                     var existingCartItem = await _dbcontext.Carts
-                        .Where(c => c.AccountID == accountId && c.ProductID == productId)
+                        .Where(c => c.AccountID == accountId && c.ProductID == cartRequest.ProductID)
                         .Include(c => c.Product)
                         .FirstOrDefaultAsync();
 
                     if (existingCartItem != null)
                     {
                         // Increment quantity based on the incoming quantity in the request
-                        existingCartItem.Quantity += quantity;
+                        existingCartItem.Quantity += cartRequest.Quantity;
 
                         // Update total quantity in the database
                         await UpdateTotalQuantity(existingCartItem.ProductID, accountId);
 
                         // Lấy lại thông tin của cart sau khi cập nhật
                         existingCartItem = await _dbcontext.Carts
-                            .Where(c => c.AccountID == accountId && c.ProductID == productId)
+                            .Where(c => c.AccountID == accountId && c.ProductID == cartRequest.ProductID)
                             .Include(c => c.Product)
                             .FirstOrDefaultAsync();
 
@@ -227,7 +227,7 @@ namespace ProjectSem3.Controllers
                         {
                             AccountID = accountId,
                             ProductID = existingProduct.ProductID,
-                            Quantity = quantity,
+                            Quantity = cartRequest.Quantity,
                         };
 
                         // Bao gồm thông tin sản phẩm
@@ -242,7 +242,7 @@ namespace ProjectSem3.Controllers
 
                         // Lấy lại thông tin của cart sau khi thêm mới
                         existingCartItem = await _dbcontext.Carts
-                            .Where(c => c.AccountID == accountId && c.ProductID == productId)
+                            .Where(c => c.AccountID == accountId && c.ProductID == cartRequest.ProductID)
                             .Include(c => c.Product)
                             .FirstOrDefaultAsync();
 
@@ -259,6 +259,13 @@ namespace ProjectSem3.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        public class CartRequestDto
+        {
+            public int ProductID { get; set; }
+            public int Quantity { get; set; }
+        }
+
 
 
 
