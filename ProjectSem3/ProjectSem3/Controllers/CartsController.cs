@@ -115,6 +115,58 @@ namespace ProjectSem3.Controllers
         }
 
         // ... Các API khác không thay đổi
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("GetCartByAccount")]
+        public async Task<ActionResult<IEnumerable<CartDto>>> GetCartByAccount()
+        {
+            try
+            {
+                // Lấy thông tin AccountID từ token
+                var accountIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+
+                if (accountIdClaim == null || !int.TryParse(accountIdClaim.Value, out int accountId))
+                {
+                    return Unauthorized(new { message = "Invalid or missing AccountID in token", statusCode = 401 });
+                }
+
+                // Lấy danh sách các mục trong giỏ hàng dựa trên AccountID
+                var carts = await _dbcontext.Carts
+                    .Where(c => c.AccountID == accountId)
+                    .Include(c => c.Product)
+                    .ThenInclude(p => p.Category) // Bao gồm thông tin danh mục
+                    .Select(cart => new CartDto
+                    {
+                        CartID = cart.CartID,
+                        AccountID = cart.AccountID,
+                        ProductID = cart.ProductID,
+                        Quantity = cart.Quantity,
+                        Product = new ProductDto
+                        {
+                            ProductID = cart.ProductID,
+                            ProductName = cart.Product.ProductName,
+                            Quantity = cart.Quantity,
+                            Price = cart.Product.Price,
+                            Description = cart.Product.Description,
+                            Image = cart.Product.Image,
+                            CategoryID = cart.Product.CategoryID,
+                            Category = new CategoryDto
+                            {
+                                CategoryID = cart.Product.CategoryID,
+                                CategoryName = cart.Product.Category.CategoryName,
+                                Description = cart.Product.Category.Description,
+                            }
+                            // Thêm các thông tin khác của Product nếu cần
+                        }
+                    })
+                    .ToListAsync();
+
+                return Ok(carts);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
 
         // PUT: api/Carts/5
