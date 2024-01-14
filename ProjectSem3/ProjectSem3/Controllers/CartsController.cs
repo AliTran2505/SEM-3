@@ -350,5 +350,33 @@ namespace ProjectSem3.Controllers
             return NoContent();
         }
 
+
+        // xoa nhieu cart
+        // DELETE: api/Carts/DeleteMultiple
+        [HttpDelete("DeleteMultiple")]
+        public async Task<IActionResult> DeleteMultipleCarts([FromBody] List<int> cartIds)
+        {
+            if (cartIds == null || cartIds.Count == 0)
+            {
+                return BadRequest("No cart IDs provided");
+            }
+
+            // Lọc ra các carts cần xóa
+            var cartsToDelete = await _dbcontext.Carts
+                .Where(c => cartIds.Contains(c.CartID))
+                .ToListAsync();
+
+            if (cartsToDelete == null || cartsToDelete.Count == 0)
+            {
+                return NotFound("No carts found for the provided IDs");
+            }
+
+            // Xóa các carts và lưu thay đổi
+            _dbcontext.Carts.RemoveRange(cartsToDelete);
+            await _dbcontext.SaveChangesAsync();
+
+            return NoContent();
+        }
+
     }
 }
