@@ -36,6 +36,7 @@ namespace ProjectSem3.Controllers
                     .Select(cart => new CartDto
                     {
                         CartID = cart.CartID,
+                        Status = cart.Status,
                         AccountID = cart.AccountID,
                         ProductID = cart.ProductID,
                         Quantity = cart.Quantity,
@@ -78,6 +79,7 @@ namespace ProjectSem3.Controllers
                     .Select(cart => new CartDto
                     {
                         CartID = cart.CartID,
+                        Status = cart.Status,
                         AccountID = cart.AccountID,
                         ProductID = cart.ProductID,
                         Quantity = cart.Quantity,
@@ -138,6 +140,7 @@ namespace ProjectSem3.Controllers
                     {
                         CartID = cart.CartID,
                         AccountID = cart.AccountID,
+                        Status = cart.Status,
                         ProductID = cart.ProductID,
                         Quantity = cart.Quantity,
                         Product = new ProductDto

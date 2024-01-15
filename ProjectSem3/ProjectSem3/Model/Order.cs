@@ -10,7 +10,7 @@ namespace ProjectSem3.Model
     {
         [Key]
         public int OrderID { get; set; }
-        public bool Status { get; set; } = true;
+        public bool Status { get; set; } = false;
         public DateTime? LastUpdateAt { get; set; } = DateTime.Now;
         public DateTime CreateAt { get; set; } = DateTime.Now;
         [ForeignKey("Account")]

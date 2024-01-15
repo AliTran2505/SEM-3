@@ -126,7 +126,7 @@ namespace ProjectSem3.Controllers
                 // Tạo đối tượng Order
                 var order = new Order
                 {
-                    Status = true,
+                    Status = false,
                     AccountID = accountId,
                     CreateAt = DateTime.Now,
                     Account = account // Gán thông tin tài khoản vào đơn hàng

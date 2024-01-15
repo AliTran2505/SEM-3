@@ -1,16 +1,8 @@
 {
   "Files": [
     {
-      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\0749f3ab-7eae-48f1-b383-82e90d37def4.jpg",
-      "PackagePath": "staticwebassets\\images\\0749f3ab-7eae-48f1-b383-82e90d37def4.jpg"
-    },
-    {
-      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\40bbfa3f-f782-4352-bb59-9a8809f9e84d.jpg",
-      "PackagePath": "staticwebassets\\images\\40bbfa3f-f782-4352-bb59-9a8809f9e84d.jpg"
-    },
-    {
-      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\95b0f1c0-7121-4a37-ace4-0ae9b434134b.jpg",
-      "PackagePath": "staticwebassets\\images\\95b0f1c0-7121-4a37-ace4-0ae9b434134b.jpg"
+      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\000dae13-bf23-4606-bf39-56c9c84f0acf.jfif",
+      "PackagePath": "staticwebassets\\images\\000dae13-bf23-4606-bf39-56c9c84f0acf.jfif"
     },
     {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.ProjectSem3.Microsoft.AspNetCore.StaticWebAssets.props",
