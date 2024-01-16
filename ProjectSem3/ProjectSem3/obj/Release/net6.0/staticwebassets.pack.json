@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\images\\000dae13-bf23-4606-bf39-56c9c84f0acf.jfif"
     },
     {
+      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\986b1630-1a00-40dd-ada2-f2cfed0d8a75.jpg",
+      "PackagePath": "staticwebassets\\images\\986b1630-1a00-40dd-ada2-f2cfed0d8a75.jpg"
+    },
+    {
       "Id": "obj\\Release\\net6.0\\staticwebassets\\msbuild.ProjectSem3.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

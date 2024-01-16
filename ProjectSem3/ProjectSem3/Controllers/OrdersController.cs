@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -73,11 +74,20 @@ namespace ProjectSem3.Controllers
         }
 
 
-        [HttpGet("ByAccount/{accountId}")]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrdersByAccount(int accountId)
+        [HttpGet("ByAccount")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrdersByAccount()
         {
             try
             {
+                // Lấy thông tin AccountID từ token
+                var accountIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+
+                if (accountIdClaim == null || !int.TryParse(accountIdClaim.Value, out int accountId))
+                {
+                    return Unauthorized(new { message = "Invalid or missing AccountID in token", statusCode = 401 });
+                }
+
                 // Lấy tất cả đơn đặt hàng từ database theo AccountID với OrderItems và Account được kèm theo
                 var orders = await _dbcontext.Orders
                     .Include(o => o.OrderItems)
@@ -97,13 +107,22 @@ namespace ProjectSem3.Controllers
 
 
 
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("PlaceOrder/{accountId}")]
+
+        [HttpPost("PlaceOrder")]
         [Consumes("application/json")]
-        public IActionResult PlaceOrder(int accountId, [FromBody] List<int> cartIds)
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult PlaceOrder([FromBody] List<int> cartIds)
         {
             try
             {
+                // Lấy thông tin AccountID từ token
+                var accountIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+
+                if (accountIdClaim == null || !int.TryParse(accountIdClaim.Value, out int accountId))
+                {
+                    return Unauthorized(new { message = "Invalid or missing AccountID in token", statusCode = 401 });
+                }
+
                 if (accountId == 0 || cartIds == null || !cartIds.Any())
                 {
                     return BadRequest("Invalid request data");
@@ -179,6 +198,32 @@ namespace ProjectSem3.Controllers
 
 
 
+        [HttpPut("UpdateOrderStatus/{orderId}")]
+        public async Task<IActionResult> UpdateOrderStatus(int orderId)
+        {
+            try
+            {
+                // Lấy đơn hàng từ database theo OrderID
+                var order = await _dbcontext.Orders.FindAsync(orderId);
+
+                if (order == null)
+                {
+                    return NotFound("Order not found");
+                }
+
+                // Cập nhật trạng thái của đơn hàng
+                order.Status = !order.Status;
+
+                // Lưu thay đổi vào cơ sở dữ liệu
+                await _dbcontext.SaveChangesAsync();
+
+                return Ok($"Order with OrderID {orderId} has been updated. Status is now {order.Status}.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
 
 

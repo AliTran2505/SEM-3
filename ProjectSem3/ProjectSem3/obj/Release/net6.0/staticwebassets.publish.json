@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "0af0tWUkujeM32afD+l9mWLIfw1UzzfPg5qJHp5f8hM=",
+  "Hash": "CRBVMl2yWAtpe3HerohSrOaHOHuB/kpv5Y51W9vlELU=",
   "Source": "ProjectSem3",
   "BasePath": "_content/ProjectSem3",
   "Mode": "Default",
@@ -34,6 +34,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\000dae13-bf23-4606-bf39-56c9c84f0acf.jfif"
+    },
+    {
+      "Identity": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\986b1630-1a00-40dd-ada2-f2cfed0d8a75.jpg",
+      "SourceId": "ProjectSem3",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\",
+      "BasePath": "_content/ProjectSem3",
+      "RelativePath": "images/986b1630-1a00-40dd-ada2-f2cfed0d8a75.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\986b1630-1a00-40dd-ada2-f2cfed0d8a75.jpg"
     }
   ]
 }
