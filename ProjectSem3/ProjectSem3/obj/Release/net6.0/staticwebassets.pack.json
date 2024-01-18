@@ -1,12 +1,36 @@
 {
   "Files": [
     {
-      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\000dae13-bf23-4606-bf39-56c9c84f0acf.jfif",
-      "PackagePath": "staticwebassets\\images\\000dae13-bf23-4606-bf39-56c9c84f0acf.jfif"
+      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\191a4dff-70bb-4f04-93fc-e96db8e986a6.jpg",
+      "PackagePath": "staticwebassets\\images\\191a4dff-70bb-4f04-93fc-e96db8e986a6.jpg"
     },
     {
-      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\986b1630-1a00-40dd-ada2-f2cfed0d8a75.jpg",
-      "PackagePath": "staticwebassets\\images\\986b1630-1a00-40dd-ada2-f2cfed0d8a75.jpg"
+      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\3091cfa7-a04a-4103-b96d-000bff61a568.png",
+      "PackagePath": "staticwebassets\\images\\3091cfa7-a04a-4103-b96d-000bff61a568.png"
+    },
+    {
+      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\3c598662-3014-49c3-897c-3500dde805a6.png",
+      "PackagePath": "staticwebassets\\images\\3c598662-3014-49c3-897c-3500dde805a6.png"
+    },
+    {
+      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\52a20f41-3ff4-479b-ab52-78aaddc6615c.png",
+      "PackagePath": "staticwebassets\\images\\52a20f41-3ff4-479b-ab52-78aaddc6615c.png"
+    },
+    {
+      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\54ebdac3-96df-42db-ac7e-efcf9754be3f.png",
+      "PackagePath": "staticwebassets\\images\\54ebdac3-96df-42db-ac7e-efcf9754be3f.png"
+    },
+    {
+      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\5efb6448-8db6-41b0-baa0-80bfc831ca40.jpg",
+      "PackagePath": "staticwebassets\\images\\5efb6448-8db6-41b0-baa0-80bfc831ca40.jpg"
+    },
+    {
+      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\861debaf-3292-427e-9066-48b03f1fc4cc.jpg",
+      "PackagePath": "staticwebassets\\images\\861debaf-3292-427e-9066-48b03f1fc4cc.jpg"
+    },
+    {
+      "Id": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\wwwroot\\images\\d268f3b5-7852-40e8-921b-6d80164d9559.jpg",
+      "PackagePath": "staticwebassets\\images\\d268f3b5-7852-40e8-921b-6d80164d9559.jpg"
     },
     {
       "Id": "obj\\Release\\net6.0\\staticwebassets\\msbuild.ProjectSem3.Microsoft.AspNetCore.StaticWebAssets.props",

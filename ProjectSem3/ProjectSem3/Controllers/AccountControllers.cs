@@ -137,12 +137,13 @@ namespace ProjectSem3.Controllers
             // Return the account details as response
             return Ok(account);
         }
+
         [HttpPut("{accountId}")]
-        public async Task<IActionResult> UpdateAccount(int accountId, UpdateAccountModel model)
+        public async Task<IActionResult> UpdateAccount(int accountId, [FromBody] AccountUpdateDto updateDto)
         {
             try
             {
-                // Lấy Account theo ID từ URL
+                // Lấy Account theo ID từ database
                 var account = await _dbContext.Accounts.FindAsync(accountId);
 
                 if (account == null)
@@ -150,22 +151,24 @@ namespace ProjectSem3.Controllers
                     return NotFound("Account not found");
                 }
 
-                // Cập nhật thông tin tài khoản từ dữ liệu mới
-                var properties = typeof(UpdateAccountModel).GetProperties();
-                var accountProperties = typeof(Account).GetProperties();
+                // Lưu thông tin cũ của Account
+                var oldUserName = account.UserName;
+                var oldPassword = account.Password;
+                var oldEmail = account.Email;
+                var oldPhoneNumber = account.PhoneNumber;
+                var oldAddress = account.Address;
+                var oldStatus = account.Status;
+                // ... (lưu các thông tin khác cần thiết)
 
-                foreach (var property in properties)
-                {
-                    // Kiểm tra xem trường thuộc tính có tồn tại trong Account không
-                    var correspondingProperty = accountProperties.FirstOrDefault(p => p.Name == property.Name);
-
-                    if (correspondingProperty != null)
-                    {
-                        // Lấy giá trị từ model và cập nhật vào tài khoản
-                        correspondingProperty.SetValue(account, property.GetValue(model));
-                    }
-                }
-
+                // Cập nhật thông tin mới từ DTO
+                account.UserName = updateDto.UserName ?? oldUserName;
+                account.Password = updateDto.Password ?? oldPassword;
+                account.RoleName = updateDto.RoleName ?? account.RoleName;
+                account.Email = updateDto.Email ?? account.Email;
+                account.PhoneNumber = updateDto.PhoneNumber ?? account.PhoneNumber;
+                account.Address = updateDto.Address ?? account.Address;
+                account.Status = updateDto.Status ?? account.Status;
+                // Lưu thay đổi vào database
                 await _dbContext.SaveChangesAsync();
 
                 return Ok("Account updated successfully");
@@ -176,6 +179,20 @@ namespace ProjectSem3.Controllers
                 return StatusCode(500, $"Internal Server Error: {ex.Message}");
             }
         }
+
+
+
+        public class AccountUpdateDto
+        {
+            public string? UserName { get; set; }
+            public string? Password { get; set; }
+            public string? RoleName { get; set; }
+            public string? Email { get; set; }
+            public string? PhoneNumber { get; set; }
+            public string? Address { get; set; }
+            public bool? Status { get; set; }
+        }
+
         [HttpDelete("{accountId}")]
         public async Task<IActionResult> DeleteAccount(int accountId)
         {
