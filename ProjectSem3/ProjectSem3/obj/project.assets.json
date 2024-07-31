@@ -11955,11 +11955,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\ProjectSem3.csproj",
+      "projectUniqueName": "D:\\CodeApp\\SEM-3\\ProjectSem3\\ProjectSem3\\ProjectSem3.csproj",
       "projectName": "ProjectSem3",
-      "projectPath": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\ProjectSem3.csproj",
+      "projectPath": "D:\\CodeApp\\SEM-3\\ProjectSem3\\ProjectSem3\\ProjectSem3.csproj",
       "packagesPath": "C:\\Users\\tsmni\\.nuget\\packages\\",
-      "outputPath": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\obj\\",
+      "outputPath": "D:\\CodeApp\\SEM-3\\ProjectSem3\\ProjectSem3\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -11987,6 +11987,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -12067,7 +12072,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
       }
     }
   }

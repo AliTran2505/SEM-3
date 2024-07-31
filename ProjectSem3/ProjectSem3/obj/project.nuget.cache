@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "NGkxsiKcVmtTk+PGejUSEy5nJ28L27amN7a/zAyV/bsEyDVZDkH5zueueP3uGl7PRFOPkR/EPuNtRDQ0gqoomQ==",
+  "dgSpecHash": "jmQtO1TlRdE=",
   "success": true,
-  "projectFilePath": "D:\\New folder\\SEM-3\\ProjectSem3\\ProjectSem3\\ProjectSem3.csproj",
+  "projectFilePath": "D:\\CodeApp\\SEM-3\\ProjectSem3\\ProjectSem3\\ProjectSem3.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tsmni\\.nuget\\packages\\automapper\\8.1.1\\automapper.8.1.1.nupkg.sha512",
     "C:\\Users\\tsmni\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\6.1.1\\automapper.extensions.microsoft.dependencyinjection.6.1.1.nupkg.sha512",

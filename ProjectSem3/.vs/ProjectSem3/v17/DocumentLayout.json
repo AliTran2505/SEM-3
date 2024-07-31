@@ -1,0 +1,163 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\CodeApp\\SEM-3\\ProjectSem3\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E3DBEE0C-A45D-4BFE-9EA3-0E9C2E2A2033}|ProjectSem3\\ProjectSem3.csproj|d:\\codeapp\\sem-3\\projectsem3\\projectsem3\\model\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3DBEE0C-A45D-4BFE-9EA3-0E9C2E2A2033}|ProjectSem3\\ProjectSem3.csproj|solutionrelative:projectsem3\\model\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3DBEE0C-A45D-4BFE-9EA3-0E9C2E2A2033}|ProjectSem3\\ProjectSem3.csproj|d:\\codeapp\\sem-3\\projectsem3\\projectsem3\\model\\productimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3DBEE0C-A45D-4BFE-9EA3-0E9C2E2A2033}|ProjectSem3\\ProjectSem3.csproj|solutionrelative:projectsem3\\model\\productimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3DBEE0C-A45D-4BFE-9EA3-0E9C2E2A2033}|ProjectSem3\\ProjectSem3.csproj|d:\\codeapp\\sem-3\\projectsem3\\projectsem3\\controllers\\accountcontrollers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3DBEE0C-A45D-4BFE-9EA3-0E9C2E2A2033}|ProjectSem3\\ProjectSem3.csproj|solutionrelative:projectsem3\\controllers\\accountcontrollers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3DBEE0C-A45D-4BFE-9EA3-0E9C2E2A2033}|ProjectSem3\\ProjectSem3.csproj|d:\\codeapp\\sem-3\\projectsem3\\projectsem3\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3DBEE0C-A45D-4BFE-9EA3-0E9C2E2A2033}|ProjectSem3\\ProjectSem3.csproj|solutionrelative:projectsem3\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3DBEE0C-A45D-4BFE-9EA3-0E9C2E2A2033}|ProjectSem3\\ProjectSem3.csproj|d:\\codeapp\\sem-3\\projectsem3\\projectsem3\\controllers\\orderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3DBEE0C-A45D-4BFE-9EA3-0E9C2E2A2033}|ProjectSem3\\ProjectSem3.csproj|solutionrelative:projectsem3\\controllers\\orderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3DBEE0C-A45D-4BFE-9EA3-0E9C2E2A2033}|ProjectSem3\\ProjectSem3.csproj|d:\\codeapp\\sem-3\\projectsem3\\projectsem3\\model\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3DBEE0C-A45D-4BFE-9EA3-0E9C2E2A2033}|ProjectSem3\\ProjectSem3.csproj|solutionrelative:projectsem3\\model\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3DBEE0C-A45D-4BFE-9EA3-0E9C2E2A2033}|ProjectSem3\\ProjectSem3.csproj|d:\\codeapp\\sem-3\\projectsem3\\projectsem3\\model\\loginmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3DBEE0C-A45D-4BFE-9EA3-0E9C2E2A2033}|ProjectSem3\\ProjectSem3.csproj|solutionrelative:projectsem3\\model\\loginmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3DBEE0C-A45D-4BFE-9EA3-0E9C2E2A2033}|ProjectSem3\\ProjectSem3.csproj|d:\\codeapp\\sem-3\\projectsem3\\projectsem3\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{E3DBEE0C-A45D-4BFE-9EA3-0E9C2E2A2033}|ProjectSem3\\ProjectSem3.csproj|solutionrelative:projectsem3\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProductImage.cs",
+              "DocumentMoniker": "D:\\CodeApp\\SEM-3\\ProjectSem3\\ProjectSem3\\Model\\ProductImage.cs",
+              "RelativeDocumentMoniker": "ProjectSem3\\Model\\ProductImage.cs",
+              "ToolTip": "D:\\CodeApp\\SEM-3\\ProjectSem3\\ProjectSem3\\Model\\ProductImage.cs",
+              "RelativeToolTip": "ProjectSem3\\Model\\ProductImage.cs",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAAwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-31T19:17:35.292Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Product.cs",
+              "DocumentMoniker": "D:\\CodeApp\\SEM-3\\ProjectSem3\\ProjectSem3\\Model\\Product.cs",
+              "RelativeDocumentMoniker": "ProjectSem3\\Model\\Product.cs",
+              "ToolTip": "D:\\CodeApp\\SEM-3\\ProjectSem3\\ProjectSem3\\Model\\Product.cs",
+              "RelativeToolTip": "ProjectSem3\\Model\\Product.cs",
+              "ViewState": "AQIAADYAAAAAAAAAAAA1wEoAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-31T19:17:28.075Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "OrdersController.cs",
+              "DocumentMoniker": "D:\\CodeApp\\SEM-3\\ProjectSem3\\ProjectSem3\\Controllers\\OrdersController.cs",
+              "RelativeDocumentMoniker": "ProjectSem3\\Controllers\\OrdersController.cs",
+              "ToolTip": "D:\\CodeApp\\SEM-3\\ProjectSem3\\ProjectSem3\\Controllers\\OrdersController.cs",
+              "RelativeToolTip": "ProjectSem3\\Controllers\\OrdersController.cs",
+              "ViewState": "AQIAAKgAAAAAAAAAAAAowHMAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-31T10:25:57.059Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Order.cs",
+              "DocumentMoniker": "D:\\CodeApp\\SEM-3\\ProjectSem3\\ProjectSem3\\Model\\Order.cs",
+              "RelativeDocumentMoniker": "ProjectSem3\\Model\\Order.cs",
+              "ToolTip": "D:\\CodeApp\\SEM-3\\ProjectSem3\\ProjectSem3\\Model\\Order.cs",
+              "RelativeToolTip": "ProjectSem3\\Model\\Order.cs",
+              "ViewState": "AQIAABMAAAAAAAAAAAA/wAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-31T10:24:50.653Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "LoginModel.cs",
+              "DocumentMoniker": "D:\\CodeApp\\SEM-3\\ProjectSem3\\ProjectSem3\\Model\\LoginModel.cs",
+              "RelativeDocumentMoniker": "ProjectSem3\\Model\\LoginModel.cs",
+              "ToolTip": "D:\\CodeApp\\SEM-3\\ProjectSem3\\ProjectSem3\\Model\\LoginModel.cs",
+              "RelativeToolTip": "ProjectSem3\\Model\\LoginModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-29T08:36:42.998Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AccountControllers.cs",
+              "DocumentMoniker": "D:\\CodeApp\\SEM-3\\ProjectSem3\\ProjectSem3\\Controllers\\AccountControllers.cs",
+              "RelativeDocumentMoniker": "ProjectSem3\\Controllers\\AccountControllers.cs",
+              "ToolTip": "D:\\CodeApp\\SEM-3\\ProjectSem3\\ProjectSem3\\Controllers\\AccountControllers.cs",
+              "RelativeToolTip": "ProjectSem3\\Controllers\\AccountControllers.cs",
+              "ViewState": "AQIAALwAAAAAAAAAAAA7wCABAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-29T06:56:55.572Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\CodeApp\\SEM-3\\ProjectSem3\\ProjectSem3\\appsettings.json",
+              "RelativeDocumentMoniker": "ProjectSem3\\appsettings.json",
+              "ToolTip": "D:\\CodeApp\\SEM-3\\ProjectSem3\\ProjectSem3\\appsettings.json",
+              "RelativeToolTip": "ProjectSem3\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-07-29T06:56:49.323Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\CodeApp\\SEM-3\\ProjectSem3\\ProjectSem3\\Program.cs",
+              "RelativeDocumentMoniker": "ProjectSem3\\Program.cs",
+              "ToolTip": "D:\\CodeApp\\SEM-3\\ProjectSem3\\ProjectSem3\\Program.cs",
+              "RelativeToolTip": "ProjectSem3\\Program.cs",
+              "ViewState": "AQIAABgAAAAAAAAAAAAAAGIAAAAKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-29T06:56:49.373Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 948,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
