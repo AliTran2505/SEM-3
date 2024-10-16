@@ -442,6 +442,22 @@
   },
   {
     "ContainingType": "ProjectSem3.Controllers.OrdersController",
+    "Method": "GetOrdersByYear",
+    "RelativePath": "api/Orders/GetOrdersByYear/{year}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "year",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ProjectSem3.Controllers.OrdersController",
     "Method": "PlaceOrder",
     "RelativePath": "api/Orders/PlaceOrder",
     "HttpMethod": "POST",
@@ -449,8 +465,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "cartIds",
-        "Type": "System.Collections.Generic.List\u00601[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Name": "request",
+        "Type": "ProjectSem3.Controllers.OrdersController\u002BPlaceOrderRequest",
         "IsRequired": true
       }
     ],

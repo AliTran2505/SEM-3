@@ -204,16 +204,18 @@ namespace ProjectSem3.Controllers
             }
 
             var cartsToRemove = _dbContext.Carts.Where(c => c.AccountID == accountId);
-            var ordersToRemove = _dbContext.Orders.Where(o => o.AccountID == accountId);
 
-            _dbContext.Orders.RemoveRange(ordersToRemove);
+            // Chỉ xóa Cart liên quan đến tài khoản
             _dbContext.Carts.RemoveRange(cartsToRemove);
+
+            // Xóa tài khoản
             _dbContext.Accounts.Remove(account);
 
             await _dbContext.SaveChangesAsync();
 
-            return Ok("Account, associated carts, and associated orders deleted successfully");
+            return Ok("Account and associated carts deleted successfully, orders were not affected");
         }
+
 
         private string GenerateJwtToken(int accountId, string username, string roleName, string phoneNumber, string email, string address, bool status, byte[] key)
         {

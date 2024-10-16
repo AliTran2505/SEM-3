@@ -10,15 +10,22 @@ namespace ProjectSem3.Model
     {
         [Key]
         public int OrderID { get; set; }
+
         public bool Status { get; set; } = false;
+
         public DateTime? LastUpdateAt { get; set; } = DateTime.Now;
+
         public DateTime CreateAt { get; set; } = DateTime.Now;
+
+        [Required]
+        [Column(TypeName = "decimal(18,2)")]
+        public float OrderPrice { get; set; }
         [ForeignKey("Account")]
         public int AccountID { get; set; }
+
         public Account Account { get; set; }
 
         public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
-       
 
     }
 
@@ -29,7 +36,6 @@ namespace ProjectSem3.Model
 
         [ForeignKey("Order")]
         public int OrderID { get; set; }
-        [ForeignKey("Product")]
         public int ProductID { get; set; }
 
         public int Quantity { get; set; }

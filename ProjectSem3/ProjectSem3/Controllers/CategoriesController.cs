@@ -120,7 +120,7 @@ namespace ProjectSem3.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            using (var transaction = _dbcontext.Database.BeginTransaction())
+            using (var transaction = await _dbcontext.Database.BeginTransactionAsync())
             {
                 try
                 {
@@ -131,19 +131,15 @@ namespace ProjectSem3.Controllers
                         return NotFound();
                     }
 
-                    // Tìm và xóa sản phẩm (Products) thuộc Category cần xóa
-                    var productsToRemove = _dbcontext.Products.Where(p => p.CategoryID == id);
+                    // Tìm và xóa sản phẩm thuộc Category cần xóa
+                    var productsToRemove = _dbcontext.Products.Where(p => p.CategoryID == id).ToList();
                     _dbcontext.Products.RemoveRange(productsToRemove);
-
-                    // Tìm và xóa các đơn đặt hàng (Orders) có chứa sản phẩm thuộc Category cần xóa
-                    var orderItemsToRemove = _dbcontext.OrderItems.Where(oi => productsToRemove.Any(p => p.ProductID == oi.ProductID));
-                    var ordersToRemove = _dbcontext.Orders.Where(o => o.OrderItems.Any(oi => orderItemsToRemove.Any(oiToRemove => oiToRemove.ID == oi.ID)));
-                    _dbcontext.Orders.RemoveRange(ordersToRemove);
 
                     // Tìm và xóa giỏ hàng (Carts) có chứa sản phẩm thuộc Category cần xóa
                     var cartsToRemove = _dbcontext.Carts.Where(c => productsToRemove.Any(p => p.ProductID == c.ProductID));
                     _dbcontext.Carts.RemoveRange(cartsToRemove);
 
+                    // Xóa danh mục
                     _dbcontext.Categories.Remove(category);
                     await _dbcontext.SaveChangesAsync();
 
@@ -153,11 +149,12 @@ namespace ProjectSem3.Controllers
                 }
                 catch (Exception ex)
                 {
-                    transaction.Rollback();
+                    await transaction.RollbackAsync();
                     return StatusCode(500, $"Internal Server Error: {ex.Message}");
                 }
             }
         }
+
 
 
         private bool CategoryExists(int id)

@@ -12,8 +12,8 @@ using ProjectSem3.Model;
 namespace ProjectSem3.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    [Migration("20240115214927_V1")]
-    partial class V1
+    [Migration("20241016182719_V2")]
+    partial class V2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -187,6 +187,9 @@ namespace ProjectSem3.Migrations
 
                     b.Property<DateTime?>("LastUpdateAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<decimal>("OrderPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");

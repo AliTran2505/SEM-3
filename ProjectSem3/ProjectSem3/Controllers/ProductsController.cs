@@ -332,18 +332,13 @@ namespace ProjectSem3.Controllers
             var carts = _dbcontext.Carts.Where(c => c.ProductID == id);
             _dbcontext.Carts.RemoveRange(carts);
 
-            // Remove product from all orders
-            var orderItems = _dbcontext.OrderItems.Where(oi => oi.ProductID == id);
-            var orders = _dbcontext.Orders.Where(o => orderItems.Select(oi => oi.OrderID).Contains(o.OrderID));
-            _dbcontext.OrderItems.RemoveRange(orderItems);
-            _dbcontext.Orders.RemoveRange(orders);
-
             // Remove product
             _dbcontext.Products.Remove(product);
             await _dbcontext.SaveChangesAsync();
 
             return NoContent();
         }
+
 
         private static ProductDto ProductToDto(Product product) => new ProductDto
         {
