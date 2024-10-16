@@ -38,6 +38,65 @@ namespace ProjectSem3.Controllers
             }
         }
 
+        [HttpGet("searchByName")]
+        public async Task<ActionResult<IEnumerable<ProductDto>>> SearchProductsByName(string name)
+        {
+            try
+            {
+                // Use EF Core to perform the search on the server with case-insensitivity
+                var products = await _dbcontext.Products
+                    .Include(p => p.Category)
+                    .Where(p => p.ProductName.ToLower().Contains(name.ToLower()))
+                    .ToListAsync();
+
+                // Check if no products were found
+                if (!products.Any())
+                {
+                    return NotFound(new { message = "No products found", statusCode = 404 });
+                }
+
+                // Map the products to ProductDto
+                var productDtos = products.Select(ProductToDto).ToList();
+
+                return Ok(productDtos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+
+        [HttpGet("filterByCategory")]
+        public async Task<ActionResult<IEnumerable<ProductDto>>> FilterProductsByCategory(int categoryId)
+        {
+            try
+            {
+                // Lọc các sản phẩm theo ID của danh mục
+                var products = await _dbcontext.Products
+                    .Include(p => p.Category)
+                    .Where(p => p.CategoryID == categoryId)
+                    .ToListAsync();
+
+                // Kiểm tra nếu không tìm thấy sản phẩm nào
+                if (!products.Any())
+                {
+                    return NotFound(new { message = "No products found in this category", statusCode = 404 });
+                }
+
+                // Chuyển đổi các sản phẩm sang ProductDto
+                var productDtos = products.Select(ProductToDto).ToList();
+
+                return Ok(productDtos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductDto>> GetProduct(int id)
         {
