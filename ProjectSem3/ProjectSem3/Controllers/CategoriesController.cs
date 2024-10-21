@@ -132,29 +132,35 @@ namespace ProjectSem3.Controllers
                     }
 
                     // Tìm và xóa sản phẩm thuộc Category cần xóa
-                    var productsToRemove = _dbcontext.Products.Where(p => p.CategoryID == id).ToList();
+                    var productsToRemove = await _dbcontext.Products
+                        .Where(p => p.CategoryID == id)
+                        .ToListAsync();
                     _dbcontext.Products.RemoveRange(productsToRemove);
 
                     // Tìm và xóa giỏ hàng (Carts) có chứa sản phẩm thuộc Category cần xóa
-                    var cartsToRemove = _dbcontext.Carts.Where(c => productsToRemove.Any(p => p.ProductID == c.ProductID));
+                    var productIds = productsToRemove.Select(p => p.ProductID).ToList();
+                    var cartsToRemove = await _dbcontext.Carts
+                        .Where(c => productIds.Contains(c.ProductID))
+                        .ToListAsync();
                     _dbcontext.Carts.RemoveRange(cartsToRemove);
 
                     // Xóa danh mục
                     _dbcontext.Categories.Remove(category);
                     await _dbcontext.SaveChangesAsync();
 
-                    transaction.Commit();
+                    // Commit giao dịch
+                    await transaction.CommitAsync();
 
                     return NoContent();
                 }
                 catch (Exception ex)
                 {
+                    // Rollback giao dịch nếu có lỗi
                     await transaction.RollbackAsync();
                     return StatusCode(500, $"Internal Server Error: {ex.Message}");
                 }
             }
         }
-
 
 
         private bool CategoryExists(int id)

@@ -475,13 +475,18 @@
   {
     "ContainingType": "ProjectSem3.Controllers.OrdersController",
     "Method": "UpdateOrderStatus",
-    "RelativePath": "api/Orders/UpdateOrderStatus/{orderId}",
+    "RelativePath": "api/Orders/UpdateOrderStatus/{orderId}/{status}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "status",
         "Type": "System.Int32",
         "IsRequired": true
       }

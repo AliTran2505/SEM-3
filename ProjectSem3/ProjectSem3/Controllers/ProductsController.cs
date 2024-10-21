@@ -263,20 +263,6 @@ namespace ProjectSem3.Controllers
 
                     await _dbcontext.SaveChangesAsync();
 
-                    // Cập nhật thông tin sản phẩm trong đơn hàng (Orders)
-                    var ordersToUpdate = await _dbcontext.Orders
-                        .Include(o => o.OrderItems)
-                        .Where(o => o.OrderItems.Any(oi => oi.ProductID == productId))
-                        .ToListAsync();
-
-                    foreach (var order in ordersToUpdate)
-                    {
-                        var orderItem = order.OrderItems.First(oi => oi.ProductID == productId);
-                        orderItem.Product.ProductName = productDto.ProductName;
-                        orderItem.Product.Price = productDto.Price;
-                        orderItem.Product.Description = productDto.Description;
-                        orderItem.Product.Image = product.Image; // Cập nhật đường dẫn ảnh mới
-                    }
 
                     // Cập nhật thông tin sản phẩm trong giỏ hàng (Carts)
                     var cartsToUpdate = await _dbcontext.Carts

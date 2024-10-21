@@ -12,8 +12,8 @@ using ProjectSem3.Model;
 namespace ProjectSem3.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    [Migration("20241016182719_V2")]
-    partial class V2
+    [Migration("20241018194735_V1")]
+    partial class V1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -188,11 +188,11 @@ namespace ProjectSem3.Migrations
                     b.Property<DateTime?>("LastUpdateAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("OrderPrice")
+                    b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("OrderID");
 
@@ -212,19 +212,18 @@ namespace ProjectSem3.Migrations
                     b.Property<int>("OrderID")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductID")
-                        .HasColumnType("int");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<string>("SerializedProduct")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
                     b.HasIndex("OrderID");
 
-                    b.HasIndex("ProductID");
-
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItem");
                 });
 
             modelBuilder.Entity("ProjectSem3.Model.Product", b =>
@@ -305,18 +304,10 @@ namespace ProjectSem3.Migrations
             modelBuilder.Entity("ProjectSem3.Model.OrderItem", b =>
                 {
                     b.HasOne("ProjectSem3.Model.Order", null)
-                        .WithMany("OrderItems")
+                        .WithMany("OrderItem")
                         .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("ProjectSem3.Model.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("ProjectSem3.Model.Product", b =>
@@ -332,7 +323,7 @@ namespace ProjectSem3.Migrations
 
             modelBuilder.Entity("ProjectSem3.Model.Order", b =>
                 {
-                    b.Navigation("OrderItems");
+                    b.Navigation("OrderItem");
                 });
 #pragma warning restore 612, 618
         }
